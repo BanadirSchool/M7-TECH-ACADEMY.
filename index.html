@@ -1,0 +1,2240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Sahal Primary & Secondary School · Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+        html { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+        body {
+            min-height: 100vh; min-height: 100dvh;
+            background: linear-gradient(145deg, #f6e9ff 0%, #d9e2ff 100%);
+            display: flex; flex-direction: column; align-items: center;
+            padding: 1.5rem 1.5rem 3rem;
+            padding-top: max(1.5rem, env(safe-area-inset-top));
+            padding-bottom: max(3rem, env(safe-area-inset-bottom));
+            padding-left: max(1.5rem, env(safe-area-inset-left));
+            padding-right: max(1.5rem, env(safe-area-inset-right));
+            animation: fadeInBg 1s ease-out; overflow-x: hidden; width: 100%;
+        }
+        @keyframes fadeInBg { 0% { opacity: 0; transform: scale(1.02); } 100% { opacity: 1; transform: scale(1); } }
+        .blob { position: fixed; border-radius: 50%; filter: blur(70px); opacity: 0.3; z-index: -1; animation: floatBlob 12s infinite alternate ease-in-out; pointer-events: none; }
+        .blob1 { width: 400px; height: 400px; background: #b77dff; top: -100px; left: -100px; }
+        .blob2 { width: 500px; height: 500px; background: #6ec3ff; bottom: -150px; right: -100px; animation-duration: 15s; }
+        .blob3 { width: 250px; height: 250px; background: #ffb86b; top: 40%; left: 70%; animation-duration: 18s; opacity: 0.2; }
+        @keyframes floatBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(40px, -40px) scale(1.1); } }
+        .portal {
+            max-width: 1150px; width: 100%;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border-radius: 3.5rem 3.5rem 2.5rem 2.5rem;
+            box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+            padding: 2rem 2.5rem 3rem;
+            animation: popIn 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        @keyframes popIn { 0% { opacity: 0; transform: translateY(30px) scale(0.96); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+        .header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem; padding-bottom: 1rem; border-bottom: 2px dashed rgba(255, 255, 255, 0.8); flex-wrap: wrap; }
+        .logo-png {
+            width: 80px; height: 80px; background: white;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            padding: 0.6rem;
+            box-shadow: 0 12px 18px -6px rgba(0, 0, 0, 0.2), 0 0 0 4px rgba(255, 255, 255, 0.7);
+            animation: logoFloat 4s infinite alternate ease-in-out;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        @keyframes logoFloat { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(-8px) rotate(2deg); } }
+        .logo-png i { font-size: 3.2rem; color: #6d28d9; }
+        .school-title {
+            font-size: 2.3rem; font-weight: 800; letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1f2b4d, #2f3f6b);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            line-height: 1.2; flex: 1; word-break: break-word;
+        }
+        .maamule-box {
+            background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(12px);
+            border-radius: 2.5rem; padding: 1.3rem 2.2rem; margin-bottom: 2.2rem;
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(255, 255, 255, 0.7) inset;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.8); cursor: pointer; transition: all 0.35s; min-height: 60px;
+        }
+        .maamule-box:hover { background: rgba(255, 255, 255, 0.65); transform: scale(1.01); }
+        .maamule-left { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .maamule-left i { font-size: 2.6rem; color: #7c3aed; background: white; padding: 0.7rem; border-radius: 1.8rem; }
+        .maamule-left h2 { font-size: 1.9rem; font-weight: 700; color: #1e1b4b; }
+        .maamule-left span { font-size: 1rem; font-weight: 500; color: #4b3f6b; background: rgba(255, 255, 255, 0.7); padding: 0.2rem 1rem; border-radius: 40px; margin-left: 0.8rem; }
+        .maamule-right { font-size: 1.1rem; color: #2d1e5f; background: white; padding: 0.6rem 1.6rem; border-radius: 40px; font-weight: 600; display: flex; align-items: center; gap: 0.6rem; }
+        .maamule-right i { color: #7c3aed; }
+        .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(16px);
+            border-radius: 2.8rem; padding: 2.2rem 1.8rem;
+            box-shadow: 0 30px 40px -18px rgba(0, 0, 0, 0.2), 0 0 0 2px rgba(255, 255, 255, 0.7) inset;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            cursor: pointer; transition: all 0.35s; text-decoration: none; color: inherit;
+            position: relative; overflow: hidden; min-height: 60px;
+        }
+        .glass-card:hover { background: rgba(255, 255, 255, 0.65); transform: translateY(-10px) scale(1.02); }
+        .card-icon {
+            font-size: 4rem; color: #6d28d9; background: rgba(255, 255, 255, 0.8);
+            width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;
+            border-radius: 2.2rem; margin-bottom: 1.5rem;
+            box-shadow: 0 15px 25px -10px rgba(109, 40, 217, 0.3); flex-shrink: 0;
+        }
+        .glass-card h3 { font-size: 2rem; font-weight: 800; color: #1e1b4b; margin-bottom: 0.5rem; }
+        .glass-card p { font-size: 1.1rem; color: #2d2a4e; font-weight: 500; max-width: 250px; line-height: 1.5; background: rgba(255, 255, 255, 0.5); padding: 0.5rem 1.2rem; border-radius: 40px; }
+        .card-divider { width: 50px; height: 4px; background: linear-gradient(90deg, #b77dff, #6ec3ff); border-radius: 4px; margin: 1rem 0 0.8rem; }
+        .footer { margin-top: 3rem; font-size: 0.9rem; color: #3b2f5e; text-align: center; opacity: 0.8; font-weight: 500; }
+        .footer i { color: #7c3aed; margin: 0 4px; }
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(20, 15, 40, 0.45);
+            backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0.35s ease;
+            z-index: 1000; padding: 1.5rem;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-login {
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);
+            border-radius: 2.8rem; padding: 2.5rem 2.2rem 2.2rem; width: 100%; max-width: 420px;
+            box-shadow: 0 40px 60px -20px rgba(0, 0, 0, 0.4);
+            transform: translateY(30px) scale(0.96); transition: transform 0.35s ease;
+            position: relative; max-height: 90vh; overflow-y: auto;
+        }
+        .modal-overlay.active .modal-login { transform: translateY(0) scale(1); }
+        .modal-close {
+            position: absolute; top: 1.2rem; right: 1.4rem; background: rgba(0, 0, 0, 0.06);
+            border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.3rem;
+            color: #4b3f6b; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .modal-close:hover { background: #7c3aed; color: white; }
+        .modal-login h3 { font-size: 1.9rem; font-weight: 800; color: #1e1b4b; text-align: center; margin-bottom: 0.3rem; }
+        .modal-login .modal-sub { text-align: center; color: #4b3f6b; font-weight: 500; margin-bottom: 1.8rem; }
+        .input-group { margin-bottom: 1.3rem; }
+        .input-group label { display: block; font-weight: 600; color: #2d2a4e; margin-bottom: 0.4rem; font-size: 0.95rem; padding-left: 0.3rem; }
+        .input-group .input-wrapper { position: relative; }
+        .input-group .input-wrapper i { position: absolute; left: 1.2rem; top: 50%; transform: translateY(-50%); color: #8b7aa8; }
+        .input-group input {
+            width: 100%; padding: 0.95rem 1rem 0.95rem 3rem; border-radius: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.8); background: rgba(255, 255, 255, 0.7);
+            font-size: 16px; font-weight: 500; color: #1e1b4b; outline: none;
+        }
+        .input-group input:focus { border-color: #7c3aed; background: white; }
+        .login-btn {
+            width: 100%; padding: 1rem; border-radius: 2rem; border: none;
+            background: linear-gradient(135deg, #7c3aed, #a855f7); color: white;
+            font-size: 1.15rem; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+            min-height: 52px; margin-top: 0.5rem;
+        }
+        .login-btn:hover { transform: scale(1.02); }
+        .error-msg { color: #dc2626; font-weight: 600; text-align: center; font-size: 0.95rem; min-height: 1.4rem; margin-top: 0.6rem; padding: 0.4rem 1rem; background: rgba(254, 226, 226, 0.7); border-radius: 2rem; display: none; }
+        .error-msg.show { display: block; }
+        .success-msg { color: #059669; font-weight: 600; text-align: center; font-size: 0.95rem; min-height: 1.4rem; margin-top: 0.6rem; padding: 0.4rem 1rem; background: rgba(209, 250, 229, 0.8); border-radius: 2rem; display: none; }
+        .success-msg.show { display: block; }
+        .student-detail-overlay { position: fixed; inset: 0; background: rgba(20, 15, 40, 0.55); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.35s; z-index: 1100; padding: 1.5rem; }
+        .student-detail-overlay.active { opacity: 1; visibility: visible; }
+        .student-detail-modal { background: rgba(255, 255, 255, 0.95); border-radius: 2.8rem; padding: 2.2rem 2rem 2rem; width: 100%; max-width: 460px; transform: translateY(40px) scale(0.9); transition: transform 0.4s; position: relative; max-height: 90vh; overflow-y: auto; }
+        .student-detail-overlay.active .student-detail-modal { transform: translateY(0) scale(1); }
+        .student-detail-close { position: absolute; top: 1.1rem; right: 1.2rem; background: rgba(0,0,0,0.06); border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; color: #4b3f6b; cursor: pointer; }
+        .student-detail-avatar { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, #c4b5fd, #8b5cf6); display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 2rem; margin: 0 auto 1rem; }
+        .student-detail-name { text-align: center; font-size: 1.5rem; font-weight: 900; color: #1e1b4b; margin-bottom: 0.2rem; }
+        .student-detail-rank { text-align: center; font-size: 0.9rem; font-weight: 800; color: #d97706; background: rgba(255,251,235,0.9); display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 1.2rem; border-radius: 40px; margin: 0 auto 1.4rem; position: relative; left: 50%; transform: translateX(-50%); }
+        .student-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+        .student-detail-field { background: rgba(255,255,255,0.75); border-radius: 1.3rem; padding: 0.9rem 1.1rem; display: flex; flex-direction: column; gap: 0.25rem; }
+        .student-detail-field.full { grid-column: 1 / -1; }
+        .student-detail-field .field-label { font-size: 0.7rem; font-weight: 800; color: #7c3aed; text-transform: uppercase; display: flex; align-items: center; gap: 0.35rem; }
+        .student-detail-field .field-value { font-size: 1.05rem; font-weight: 800; color: #1e1b4b; word-break: break-all; }
+        .student-detail-field .field-value.password-value { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+        .password-mask { font-family: 'Courier New', monospace; letter-spacing: 2px; color: #7c3aed; }
+        .toggle-password-btn { border: none; background: rgba(124,58,237,0.1); color: #7c3aed; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; flex-shrink: 0; }
+        .toggle-password-btn:hover { background: #7c3aed; color: white; }
+        .student-detail-hint { text-align: center; font-size: 0.75rem; color: #6b7280; font-weight: 600; margin-top: 1.2rem; padding: 0.6rem 1rem; background: rgba(255,255,255,0.6); border-radius: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
+        .admin-view, .top10-view, .natiijo-form-view, .student-result-view, .muraajaco-view, .student-muraajaco-view { display: none; }
+        .admin-view.active, .top10-view.active, .natiijo-form-view.active, .student-result-view.active, .muraajaco-view.active, .student-muraajaco-view.active { display: block; }
+        .admin-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+        .admin-header h2 { font-size: 2rem; font-weight: 800; color: #1e1b4b; display: flex; align-items: center; gap: 0.8rem; }
+        .admin-header h2 i { color: #7c3aed; background: white; padding: 0.6rem; border-radius: 1.4rem; }
+        .admin-user-badge { display: flex; align-items: center; gap: 0.8rem; background: white; padding: 0.6rem 1.4rem; border-radius: 40px; font-weight: 700; color: #2d1e5f; font-family: 'Courier New', monospace; }
+        .admin-user-badge i { color: #7c3aed; }
+        .logout-btn { border: none; background: rgba(255,255,255,0.7); padding: 0.7rem 1.4rem; border-radius: 40px; font-weight: 700; color: #dc2626; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; min-height: 44px; }
+        .logout-btn:hover { background: #dc2626; color: white; }
+        .admin-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .top10-card { background: linear-gradient(135deg, rgba(255,215,0,0.25), rgba(255,255,255,0.5)); border: 1px solid rgba(255,215,0,0.6); }
+        .top10-card .card-icon { color: #d97706; background: rgba(255,251,235,0.9); }
+        .table-scroll-wrapper { width: 100%; overflow-x: auto; border-radius: 1.4rem; margin-top: 1rem; }
+        .top10-table { width: 100%; border-collapse: separate; border-spacing: 0 0.6rem; min-width: 600px; }
+        .top10-table thead th { text-align: left; padding: 0.9rem 1rem; color: #4b3f6b; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; white-space: nowrap; }
+        .top10-table tbody tr { background: rgba(255,255,255,0.55); transition: all 0.25s; cursor: pointer; }
+        .top10-table tbody tr:hover { background: rgba(255,255,255,0.85); transform: translateX(6px); }
+        .top10-table tbody td { padding: 1rem 1rem; color: #1e1b4b; font-weight: 600; font-size: 1rem; }
+        .top10-table tbody td:first-child { border-radius: 1.4rem 0 0 1.4rem; }
+        .top10-table tbody td:last-child { border-radius: 0 1.4rem 1.4rem 0; }
+        .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; font-weight: 800; color: white; flex-shrink: 0; }
+        .rank-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+        .rank-2 { background: linear-gradient(135deg, #cbd5e1, #94a3b8); }
+        .rank-3 { background: linear-gradient(135deg, #fb923c, #ea580c); }
+        .rank-default { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+        .student-name { display: flex; align-items: center; gap: 0.8rem; user-select: none; }
+        .student-name .click-hint { font-size: 0.65rem; color: #7c3aed; opacity: 0; transition: opacity 0.25s; font-weight: 700; }
+        .top10-table tbody tr:hover .student-name .click-hint { opacity: 1; }
+        .student-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #c4b5fd, #8b5cf6); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; flex-shrink: 0; }
+        .score-pill { display: inline-block; background: linear-gradient(135deg, #d1fae5, #6ee7b7); color: #065f46; padding: 0.35rem 1rem; border-radius: 40px; font-weight: 800; white-space: nowrap; }
+        .month-pill-tag { display: inline-block; background: rgba(124,58,237,0.12); color: #5b21b6; padding: 0.3rem 0.9rem; border-radius: 40px; font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
+        .back-btn { border: none; background: rgba(255,255,255,0.7); padding: 0.7rem 1.5rem; border-radius: 40px; font-weight: 700; color: #4b3f6b; cursor: pointer; display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1.2rem; min-height: 44px; }
+        .back-btn:hover { background: #7c3aed; color: white; }
+        .status-msg { background: rgba(255,255,255,0.7); padding: 1rem 1.6rem; border-radius: 1.6rem; font-weight: 600; color: #4b3f6b; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; }
+        .status-msg i { color: #7c3aed; font-size: 1.3rem; flex-shrink: 0; }
+        .form-section-title { font-size: 1.2rem; font-weight: 800; color: #1e1b4b; margin: 1.6rem 0 1rem; display: flex; align-items: center; gap: 0.7rem; background: rgba(255,255,255,0.6); padding: 0.8rem 1.4rem; border-radius: 1.4rem; flex-wrap: wrap; }
+        .form-section-title i { color: #7c3aed; background: white; padding: 0.5rem; border-radius: 1rem; flex-shrink: 0; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; }
+        .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+        .form-field label { font-weight: 700; color: #2d2a4e; font-size: 0.92rem; padding-left: 0.4rem; display: flex; align-items: center; gap: 0.4rem; }
+        .form-field label i { color: #7c3aed; font-size: 0.85rem; }
+        .form-field input, .form-field select, .form-field textarea {
+            padding: 0.95rem 1.1rem; border-radius: 1.4rem; border: 2px solid rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.7); font-size: 16px; font-weight: 600; color: #1e1b4b; outline: none;
+            width: 100%; min-height: 50px;
+        }
+        .form-field select { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2.5'><polyline points='6 9 12 15 18 9'/></svg>"); background-repeat: no-repeat; background-position: right 1.1rem center; padding-right: 2.8rem; -webkit-appearance: none; appearance: none; }
+        .form-field textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: #7c3aed; background: white; }
+        .form-field input[readonly] { background: rgba(237,233,254,0.7); color: #5b21b6; cursor: not-allowed; }
+        .visibility-box { margin-top: 1.4rem; padding: 1.2rem 1.4rem; border-radius: 1.6rem; background: rgba(255,255,255,0.65); border: 1px solid rgba(255,255,255,0.9); }
+        .visibility-check-row { display: flex; align-items: center; gap: 0.9rem; cursor: pointer; user-select: none; }
+        .visibility-check-row input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
+        .custom-checkbox { width: 30px; height: 30px; border-radius: 0.8rem; border: 2.5px solid #7c3aed; background: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.25s; }
+        .custom-checkbox i { color: white; font-size: 0.9rem; opacity: 0; }
+        .visibility-check-row input[type="checkbox"]:checked + .custom-checkbox { background: linear-gradient(135deg, #10b981, #059669); border-color: #059669; }
+        .visibility-check-row input[type="checkbox"]:checked + .custom-checkbox i { opacity: 1; }
+        .visibility-label { font-weight: 800; color: #1e1b4b; font-size: 0.98rem; display: flex; flex-direction: column; gap: 0.2rem; }
+        .visibility-label small { font-weight: 600; color: #6b7280; font-size: 0.78rem; }
+        .reason-box { margin-top: 1rem; padding-top: 1rem; border-top: 2px dashed rgba(220,38,38,0.25); display: none; }
+        .reason-box.show { display: block; }
+        .reason-box label { font-weight: 800; color: #b91c1c; font-size: 0.92rem; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .reason-box textarea { width: 100%; padding: 0.9rem 1.1rem; border-radius: 1.2rem; border: 2px solid rgba(220,38,38,0.35); background: rgba(254,226,226,0.5); font-size: 16px; font-weight: 600; color: #7f1d1d; outline: none; min-height: 80px; }
+        .reason-box textarea:focus { border-color: #dc2626; background: white; }
+        .hidden-result-notice { background: linear-gradient(135deg, rgba(254,226,226,0.95), rgba(254,202,202,0.85)); border: 2px solid rgba(220,38,38,0.4); border-radius: 2rem; padding: 2rem 1.6rem; text-align: center; }
+        .hidden-result-notice .hidden-icon { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #fecaca, #fca5a5); color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 2.4rem; margin: 0 auto 1rem; }
+        .hidden-result-notice h3 { font-size: 1.4rem; font-weight: 900; color: #991b1b; margin-bottom: 0.5rem; }
+        .hidden-result-notice p { font-size: 0.95rem; font-weight: 600; color: #7f1d1d; line-height: 1.6; margin-bottom: 1rem; }
+        .hidden-result-notice .reason-display { background: rgba(255,255,255,0.85); border: 1.5px solid rgba(220,38,38,0.3); border-radius: 1.4rem; padding: 1rem 1.2rem; text-align: left; }
+        .hidden-result-notice .reason-display .reason-label { font-size: 0.75rem; font-weight: 800; color: #dc2626; text-transform: uppercase; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem; }
+        .hidden-result-notice .reason-display .reason-text { font-size: 0.95rem; font-weight: 700; color: #7f1d1d; line-height: 1.5; word-break: break-word; }
+        .month-pills { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+        .month-pill { padding: 0.8rem 1.5rem; border-radius: 40px; border: 2px solid rgba(255,255,255,0.9); background: rgba(255,255,255,0.6); font-weight: 700; color: #4b3f6b; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; min-height: 48px; }
+        .month-pill.active { background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; border-color: #7c3aed; }
+        .marks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+        .mark-card { background: rgba(255,255,255,0.6); border-radius: 1.6rem; padding: 1rem 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; }
+        .mark-card .subject-label { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; color: #1e1b4b; font-size: 0.98rem; }
+        .mark-card .subject-label .subj-icon { width: 34px; height: 34px; border-radius: 0.9rem; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: white; flex-shrink: 0; }
+        .mark-card input { width: 80px; padding: 0.65rem 0.6rem; border-radius: 1rem; text-align: center; border: 2px solid rgba(255,255,255,0.9); background: white; font-weight: 800; font-size: 16px; color: #1e1b4b; outline: none; min-height: 44px; }
+        .subj-tarbiyo { background: linear-gradient(135deg, #34d399, #059669); }
+        .subj-carabi { background: linear-gradient(135deg, #fbbf24, #d97706); }
+        .subj-somali { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+        .subj-seynis { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+        .subj-cb { background: linear-gradient(135deg, #f472b6, #db2777); }
+        .subj-technology { background: linear-gradient(135deg, #22d3ee, #0891b2); }
+        .subj-english { background: linear-gradient(135deg, #fb7185, #e11d48); }
+        .subj-xisaab { background: linear-gradient(135deg, #818cf8, #4f46e5); }
+        .subject-chooser-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; background: rgba(255,255,255,0.5); border-radius: 1.6rem; padding: 1rem 1.2rem; margin-bottom: 1rem; }
+        .subject-chooser-bar .chooser-label { font-weight: 800; color: #4b3f6b; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; }
+        .choose-subjects-btn { border: none; padding: 0.7rem 1.3rem; border-radius: 40px; font-weight: 700; font-size: 0.9rem; cursor: pointer; background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; }
+        .quick-select-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .quick-select-btns button { border: 2px solid rgba(124,58,237,0.3); background: rgba(255,255,255,0.7); color: #5b21b6; padding: 0.55rem 1rem; border-radius: 40px; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 40px; }
+        .subject-count-badge { font-size: 0.8rem; font-weight: 800; color: #065f46; background: rgba(209,250,229,0.9); padding: 0.35rem 0.9rem; border-radius: 40px; display: inline-flex; align-items: center; gap: 0.4rem; margin-left: auto; }
+        .marks-grid-empty { display: none; text-align: center; padding: 2rem 1.5rem; background: rgba(255,255,255,0.6); border-radius: 1.6rem; color: #4b3f6b; font-weight: 600; margin-bottom: 1rem; }
+        .marks-grid-empty.show { display: block; }
+        .marks-grid-empty i { font-size: 2.2rem; color: #a78bfa; display: block; margin-bottom: 0.6rem; }
+        .subject-chooser-overlay { position: fixed; inset: 0; background: rgba(20,15,40,0.55); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.35s; z-index: 1200; padding: 1.5rem; }
+        .subject-chooser-overlay.active { opacity: 1; visibility: visible; }
+        .subject-chooser-modal { background: rgba(255,255,255,0.95); border-radius: 2.8rem; padding: 2rem 1.8rem 1.8rem; width: 100%; max-width: 560px; position: relative; max-height: 90vh; overflow-y: auto; }
+        .subject-chooser-close { position: absolute; top: 1.1rem; right: 1.2rem; background: rgba(0,0,0,0.06); border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; color: #4b3f6b; cursor: pointer; }
+        .subject-chooser-modal h3 { font-size: 1.4rem; font-weight: 900; color: #1e1b4b; text-align: center; margin-bottom: 0.3rem; }
+        .subject-chooser-modal .chooser-sub { text-align: center; font-size: 0.9rem; color: #4b3f6b; font-weight: 600; margin-bottom: 1.4rem; }
+        .chooser-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-bottom: 1.2rem; }
+        .chooser-item { display: flex; align-items: center; gap: 0.7rem; background: rgba(255,255,255,0.7); border: 2px solid rgba(255,255,255,0.9); border-radius: 1.3rem; padding: 0.85rem 1rem; cursor: pointer; user-select: none; min-height: 52px; }
+        .chooser-item.checked { background: rgba(124,58,237,0.1); border-color: #7c3aed; }
+        .chooser-check { width: 24px; height: 24px; border-radius: 0.7rem; background: white; border: 2px solid rgba(124,58,237,0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .chooser-check i { color: white; font-size: 0.7rem; opacity: 0; }
+        .chooser-item.checked .chooser-check { background: linear-gradient(135deg, #7c3aed, #a855f7); border-color: #7c3aed; }
+        .chooser-item.checked .chooser-check i { opacity: 1; }
+        .chooser-item .chooser-icon { width: 34px; height: 34px; border-radius: 0.9rem; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+        .chooser-item .chooser-name { font-weight: 800; color: #1e1b4b; font-size: 0.92rem; }
+        .chooser-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+        .chooser-actions button { flex: 1; padding: 0.85rem; border-radius: 1.4rem; border: none; font-weight: 800; font-size: 0.95rem; cursor: pointer; min-height: 48px; min-width: 100px; }
+        .chooser-actions .choose-all-btn { background: rgba(124,58,237,0.1); color: #5b21b6; }
+        .chooser-actions .apply-btn { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .save-btn { width: 100%; padding: 1.1rem; border-radius: 2rem; border: none; margin-top: 2rem; background: linear-gradient(135deg, #10b981, #059669); color: white; font-size: 1.15rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.7rem; min-height: 56px; }
+        .save-btn:hover { transform: scale(1.015); }
+        .form-toast { margin-top: 1.2rem; padding: 1rem 1.4rem; border-radius: 1.4rem; font-weight: 700; display: none; align-items: center; gap: 0.7rem; word-break: break-word; }
+        .form-toast.show { display: flex; }
+        .form-toast.ok { background: rgba(209,250,229,0.9); color: #065f46; }
+        .form-toast.err { background: rgba(254,226,226,0.9); color: #b91c1c; }
+        .result-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1rem 0 1.6rem; }
+        .result-info-card { background: rgba(255,255,255,0.6); border-radius: 1.4rem; padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.3rem; }
+        .result-info-card .label { font-size: 0.75rem; font-weight: 700; color: #7c3aed; text-transform: uppercase; display: flex; align-items: center; gap: 0.4rem; }
+        .result-info-card .value { font-size: 1.05rem; font-weight: 800; color: #1e1b4b; word-break: break-word; }
+        .result-marks-table { width: 100%; border-collapse: separate; border-spacing: 0 0.5rem; min-width: 500px; }
+        .result-marks-table thead th { text-align: left; padding: 0.8rem 1rem; color: #4b3f6b; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; white-space: nowrap; }
+        .result-marks-table tbody tr { background: rgba(255,255,255,0.55); }
+        .result-marks-table tbody tr.failed-row { background: rgba(254,226,226,0.7); }
+        .result-marks-table tbody td { padding: 0.85rem 1rem; color: #1e1b4b; font-weight: 600; font-size: 0.95rem; }
+        .result-marks-table tbody td:first-child { border-radius: 1.2rem 0 0 1.2rem; }
+        .result-marks-table tbody td:last-child { border-radius: 0 1.2rem 1.2rem 0; }
+        .result-marks-table .subject-cell { display: flex; align-items: center; gap: 0.7rem; font-weight: 700; }
+        .result-marks-table .subject-cell .subj-icon { width: 32px; height: 32px; border-radius: 0.8rem; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: white; flex-shrink: 0; }
+        .mark-value { display: inline-block; padding: 0.3rem 1rem; border-radius: 40px; font-weight: 800; font-size: 0.9rem; white-space: nowrap; }
+        .mark-good { background: linear-gradient(135deg, #d1fae5, #6ee7b7); color: #065f46; }
+        .mark-mid { background: linear-gradient(135deg, #fef3c7, #fcd34d); color: #92400e; }
+        .mark-low { background: linear-gradient(135deg, #fee2e2, #fca5a5); color: #991b1b; }
+        .mark-na { background: rgba(0,0,0,0.05); color: #8b7aa8; }
+        .fail-badge { display: inline-flex; align-items: center; gap: 0.35rem; background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; padding: 0.3rem 0.7rem; border-radius: 40px; font-weight: 800; font-size: 0.75rem; white-space: nowrap; }
+        .pass-badge { display: inline-flex; align-items: center; gap: 0.35rem; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 0.3rem 0.7rem; border-radius: 40px; font-weight: 800; font-size: 0.75rem; white-space: nowrap; }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        .summary-card { border-radius: 1.8rem; padding: 1.2rem 1rem; text-align: center; }
+        .summary-card .sum-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .summary-card .sum-value { font-size: 2rem; font-weight: 900; word-break: break-word; }
+        .summary-card .sum-sub { font-size: 0.7rem; font-weight: 600; opacity: 0.8; margin-top: 0.2rem; }
+        .sum-total { background: linear-gradient(135deg, rgba(96,165,250,0.3), rgba(37,99,235,0.2)); }
+        .sum-total .sum-label, .sum-total .sum-value { color: #1e40af; }
+        .sum-average { background: linear-gradient(135deg, rgba(167,139,250,0.3), rgba(124,58,237,0.2)); }
+        .sum-average .sum-label, .sum-average .sum-value { color: #5b21b6; }
+        .sum-gpa { background: linear-gradient(135deg, rgba(52,211,153,0.3), rgba(5,150,105,0.2)); }
+        .sum-gpa .sum-label, .sum-gpa .sum-value { color: #065f46; }
+        .sum-failed { background: linear-gradient(135deg, rgba(248,113,113,0.25), rgba(220,38,38,0.15)); }
+        .sum-failed .sum-label, .sum-failed .sum-value { color: #991b1b; }
+        .fail-warning { margin-top: 1.5rem; padding: 1.2rem 1.6rem; border-radius: 1.6rem; background: linear-gradient(135deg, rgba(254,226,226,0.9), rgba(254,202,202,0.9)); border: 2px solid rgba(220,38,38,0.5); color: #991b1b; font-weight: 700; display: none; align-items: flex-start; gap: 0.8rem; flex-wrap: wrap; }
+        .fail-warning.show { display: flex; }
+        .fail-warning i { font-size: 1.6rem; color: #dc2626; flex-shrink: 0; }
+        .fail-warning .fail-detail { font-size: 0.9rem; font-weight: 600; margin-top: 0.3rem; color: #7f1d1d; word-break: break-word; }
+        .average-banner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(168,85,247,0.15)); border: 1px solid rgba(124,58,237,0.3); padding: 1.2rem 1.6rem; border-radius: 1.8rem; margin-top: 1.5rem; }
+        .average-banner .avg-label { font-size: 0.95rem; font-weight: 700; color: #4b3f6b; display: flex; align-items: center; gap: 0.6rem; }
+        .average-banner .avg-value { font-size: 1.8rem; font-weight: 900; background: linear-gradient(135deg, #6d28d9, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .pdf-download-btn { width: 100%; padding: 1.1rem; border-radius: 2rem; border: none; margin-top: 1.8rem; background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; font-size: 1.1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.7rem; min-height: 56px; }
+        .pdf-download-btn:hover { transform: scale(1.015); }
+        .no-results { background: rgba(255,255,255,0.6); border-radius: 2rem; padding: 2.5rem 2rem; text-align: center; color: #4b3f6b; font-weight: 600; }
+        .no-results i { font-size: 3rem; color: #a78bfa; margin-bottom: 1rem; display: block; }
+        .month-filter-bar { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.4rem; align-items: center; }
+        .month-filter-bar .filter-label { font-weight: 700; color: #4b3f6b; font-size: 0.9rem; display: flex; align-items: center; gap: 0.4rem; }
+        .month-filter-btn { padding: 0.6rem 1.1rem; border-radius: 40px; border: 2px solid rgba(255,255,255,0.9); background: rgba(255,255,255,0.6); font-weight: 700; color: #4b3f6b; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; }
+        .month-filter-btn.active { background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; border-color: #7c3aed; }
+        .muraajaco-file-input-wrapper { margin-top: 0.6rem; }
+        .muraajaco-file-input-wrapper input[type="file"] { width: 100%; padding: 1rem 1.2rem; border-radius: 1.4rem; border: 2px dashed rgba(124,58,237,0.5); background: rgba(255,255,255,0.7); font-size: 0.95rem; font-weight: 600; color: #1e1b4b; cursor: pointer; min-height: 50px; }
+        .muraajaco-file-input-wrapper input[type="file"]::file-selector-button { background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 1rem; font-weight: 700; cursor: pointer; margin-right: 1rem; }
+        .file-preview-card { display: none; align-items: center; gap: 1rem; margin-top: 1rem; background: rgba(255,255,255,0.75); padding: 1rem 1.4rem; border-radius: 1.4rem; flex-wrap: wrap; }
+        .file-preview-card.show { display: flex; }
+        .file-preview-card i.pdf-icon { font-size: 2.4rem; color: #dc2626; flex-shrink: 0; }
+        .file-preview-card .file-info { flex: 1; min-width: 150px; }
+        .file-preview-card .file-name { font-weight: 800; color: #1e1b4b; font-size: 1rem; word-break: break-all; }
+        .file-preview-card .file-size { font-size: 0.85rem; color: #6b7280; font-weight: 600; margin-top: 0.2rem; }
+        .file-preview-card .remove-file-btn { border: none; background: rgba(220,38,38,0.1); color: #dc2626; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; }
+        .saved-files-list { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.4rem; }
+        .saved-file-item { background: rgba(255,255,255,0.6); border-radius: 1.4rem; padding: 1rem 1.4rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .saved-file-item .pdf-icon { font-size: 2rem; color: #dc2626; flex-shrink: 0; }
+        .saved-file-item .file-details { flex: 1; min-width: 150px; }
+        .saved-file-item .file-name { font-weight: 800; color: #1e1b4b; font-size: 0.95rem; word-break: break-all; }
+        .saved-file-item .file-meta { font-size: 0.8rem; color: #6b7280; font-weight: 600; margin-top: 0.2rem; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .saved-file-item .file-meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+        .saved-file-item .file-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; width: 100%; }
+        .saved-file-item .file-actions button { border: none; background: rgba(124,58,237,0.1); color: #7c3aed; padding: 0.65rem 1.1rem; border-radius: 1rem; cursor: pointer; font-weight: 800; font-size: 0.85rem; flex: 1; min-height: 44px; min-width: 100px; }
+        .saved-file-item .file-actions button.delete-btn { background: rgba(220,38,38,0.12); color: #dc2626; }
+        .saved-file-item .file-actions button.delete-btn:hover { background: #dc2626; color: white; }
+        .delete-all-btn { border: none; background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; padding: 0.75rem 1.4rem; border-radius: 1.2rem; font-weight: 800; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; }
+        .class-select-big { width: 100%; padding: 1rem 1.4rem; border-radius: 1.4rem; border: 2px solid rgba(255,255,255,0.9); background: rgba(255,255,255,0.8); font-size: 16px; font-weight: 700; color: #1e1b4b; outline: none; min-height: 52px; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2.5'><polyline points='6 9 12 15 18 9'/></svg>"); background-repeat: no-repeat; background-position: right 1.4rem center; padding-right: 3rem; }
+        .student-pdf-card { display: flex; align-items: center; gap: 1.2rem; background: rgba(255,255,255,0.7); padding: 1.4rem 1.6rem; border-radius: 1.8rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .student-pdf-card .pdf-big-icon { width: 65px; height: 65px; border-radius: 1.4rem; background: linear-gradient(135deg, #fecaca, #fca5a5); color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0; }
+        .student-pdf-card .pdf-info { flex: 1; min-width: 150px; }
+        .student-pdf-card .pdf-info h4 { font-size: 1rem; font-weight: 800; color: #1e1b4b; word-break: break-all; margin-bottom: 0.3rem; }
+        .student-pdf-card .pdf-info p { font-size: 0.8rem; color: #6b7280; font-weight: 600; display: flex; flex-wrap: wrap; gap: 0.8rem; }
+        .student-pdf-card .view-pdf-btn { border: none; background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; padding: 0.75rem 1.4rem; border-radius: 1.2rem; cursor: pointer; font-weight: 800; font-size: 0.9rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 44px; }
+        .empty-pdf-state { background: rgba(255,255,255,0.6); border-radius: 2rem; padding: 2.5rem 2rem; text-align: center; color: #4b3f6b; font-weight: 600; }
+        .empty-pdf-state i { font-size: 3rem; color: #a78bfa; margin-bottom: 1rem; display: block; }
+        .student-selector-hint { display: flex; align-items: center; gap: 0.6rem; background: rgba(237,233,254,0.8); border: 1px solid rgba(124,58,237,0.3); padding: 0.8rem 1.2rem; border-radius: 1.2rem; margin-bottom: 1rem; color: #5b21b6; font-weight: 600; font-size: 0.9rem; }
+        .new-student-btn { border: 2px dashed rgba(16,185,129,0.6); background: rgba(209,250,229,0.6); color: #065f46; padding: 1rem 1.4rem; border-radius: 1.4rem; font-weight: 800; font-size: 0.95rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; width: 100%; margin-top: 0.8rem; min-height: 52px; }
+        .new-student-btn:hover { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .new-student-btn.active { background: linear-gradient(135deg, #10b981, #059669); color: white; border-style: solid; }
+        .loading-overlay { position: fixed; inset: 0; background: rgba(20,15,40,0.7); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 9999; flex-direction: column; gap: 1rem; }
+        .loading-overlay.active { display: flex; }
+        .loading-spinner { width: 60px; height: 60px; border: 5px solid rgba(255,255,255,0.3); border-top-color: #a855f7; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { color: white; font-weight: 700; font-size: 1.1rem; }
+        @media (max-width: 900px) { .admin-cards-grid { grid-template-columns: 1fr 1fr; } .portal { padding: 1.8rem 1.8rem 2.5rem; } .school-title { font-size: 1.9rem; } .maamule-left h2 { font-size: 1.6rem; } }
+        @media (max-width: 768px) { .cards-grid { grid-template-columns: 1fr 1fr; gap: 1.2rem; } .admin-cards-grid { grid-template-columns: 1fr 1fr; } .chooser-grid { grid-template-columns: 1fr 1fr; } .result-info-grid { grid-template-columns: 1fr 1fr; } .summary-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 700px) {
+            body { padding: 1rem 0.8rem 2rem; }
+            .portal { padding: 1.5rem 1.1rem 2rem; border-radius: 2rem 2rem 1.5rem 1.5rem; max-width: 100%; }
+            .header { gap: 0.8rem; margin-bottom: 1.5rem; }
+            .logo-png { width: 60px; height: 60px; padding: 0.5rem; }
+            .logo-png i { font-size: 2.2rem; }
+            .school-title { font-size: 1.3rem; line-height: 1.25; }
+            .maamule-box { padding: 1rem 1.2rem; border-radius: 1.8rem; }
+            .maamule-left i { font-size: 1.8rem; padding: 0.5rem; }
+            .maamule-left h2 { font-size: 1.3rem; }
+            .maamule-left span { font-size: 0.85rem; }
+            .maamule-right { font-size: 0.9rem; padding: 0.5rem 1rem; }
+            .cards-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .glass-card { padding: 1.8rem 1.4rem; border-radius: 2rem; }
+            .card-icon { width: 75px; height: 75px; font-size: 2.8rem; margin-bottom: 1rem; }
+            .glass-card h3 { font-size: 1.6rem; }
+            .glass-card p { font-size: 0.95rem; }
+            .admin-header { flex-direction: column; align-items: flex-start; }
+            .admin-header h2 { font-size: 1.4rem; }
+            .admin-cards-grid { grid-template-columns: 1fr; }
+            .admin-user-badge { font-size: 0.8rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .month-pill { flex: 1 1 calc(50% - 0.5rem); justify-content: center; font-size: 0.85rem; }
+            .marks-grid { grid-template-columns: 1fr; }
+            .result-info-grid { grid-template-columns: 1fr 1fr; }
+            .summary-grid { grid-template-columns: 1fr 1fr; }
+            .chooser-grid { grid-template-columns: 1fr; }
+            .chooser-actions { flex-direction: column; }
+            .modal-login { padding: 2rem 1.5rem 1.5rem; border-radius: 2rem; }
+            .student-detail-modal { padding: 1.8rem 1.4rem 1.5rem; border-radius: 2rem; }
+            .student-detail-grid { grid-template-columns: 1fr; }
+            .top10-table { min-width: 560px; }
+            .result-marks-table { min-width: 450px; }
+            .student-pdf-card .view-pdf-btn { width: 100%; }
+        }
+        @media (max-width: 400px) {
+            body { padding: 0.7rem 0.5rem 1.5rem; }
+            .portal { padding: 1.2rem 0.9rem 1.5rem; border-radius: 1.6rem; }
+            .school-title { font-size: 1.1rem; }
+            .logo-png { width: 50px; height: 50px; }
+            .logo-png i { font-size: 1.8rem; }
+            .glass-card h3 { font-size: 1.4rem; }
+            .month-pill { flex: 1 1 100%; }
+            .result-info-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Loading...</div>
+    </div>
+
+    <!-- ==================== MAIN PORTAL ==================== -->
+    <div class="portal" id="mainPortal">
+        <div class="header">
+            <div class="logo-png"><i class="fas fa-school"></i></div>
+            <div class="school-title">SAHAL PRIMARY AND SECONDARY SCHOOL</div>
+        </div>
+        <div class="maamule-box" id="maamuleBox">
+            <div class="maamule-left">
+                <i class="fas fa-user-tie"></i>
+                <h2>Maamule</h2>
+                <span>Maamulka Sare</span>
+            </div>
+            <div class="maamule-right"><i class="fas fa-lock"></i> Aqoonsiga Maamulka</div>
+        </div>
+        <div class="cards-grid">
+            <a href="#" class="glass-card" onclick="showStudentResult(); return false;">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Natiijada</h3>
+                <div class="card-divider"></div>
+                <p>Ardayga halkan ka fiirsado natiijada maamulka soo xarey</p>
+            </a>
+            <a href="#" class="glass-card" onclick="showStudentMuraajaco(); return false;">
+                <div class="card-icon"><i class="fas fa-file-pdf"></i></div>
+                <h3>Muraajaco</h3>
+                <div class="card-divider"></div>
+                <p>Ardayga halkan ka fiirsado muraajacada maamulka soo xarey (PDF)</p>
+            </a>
+        </div>
+        <div class="footer"><i class="fas fa-gem"></i> Sahal Primary & Secondary School · Portal <i class="fas fa-gem"></i></div>
+    </div>
+
+    <!-- ==================== ADMIN DASHBOARD ==================== -->
+    <div class="portal admin-view" id="adminDashboard">
+        <div class="admin-header">
+            <h2><i class="fas fa-gauge-high"></i> Maamulka Dashboard</h2>
+            <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
+                <div class="admin-user-badge"><i class="fas fa-circle-user"></i> ••••••@•••••••.com · Maamule</div>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-right-from-bracket"></i> Ka bax</button>
+            </div>
+        </div>
+        <div class="status-msg">
+            <i class="fas fa-circle-check"></i> Aqoonsiga waa sax — Ku soo dhawoow Maamulka Sare ee Sahal School.
+        </div>
+        <div class="admin-cards-grid">
+            <a href="#" class="glass-card" onclick="showNatiijoForm(); return false;">
+                <div class="card-icon"><i class="fas fa-cloud-arrow-up"></i></div>
+                <h3>Natiijo Xareyn</h3>
+                <div class="card-divider"></div>
+                <p>Halkan ka xarey natiijada ardayga</p>
+            </a>
+            <a href="#" class="glass-card" onclick="showMuraajacoAdmin(); return false;">
+                <div class="card-icon"><i class="fas fa-file-pdf"></i></div>
+                <h3>Muraajaco</h3>
+                <div class="card-divider"></div>
+                <p>Maamul muraajacada ardayga (PDF)</p>
+            </a>
+            <a href="#" class="glass-card top10-card" onclick="showTop10(); return false;">
+                <div class="card-icon"><i class="fas fa-trophy"></i></div>
+                <h3>Top 10</h3>
+                <div class="card-divider" style="background: linear-gradient(90deg, #fbbf24, #f59e0b);"></div>
+                <p>Ardayda 10ka kaalin ugu sareysa</p>
+            </a>
+        </div>
+        <div class="footer"><i class="fas fa-gem"></i> Sahal Primary & Secondary School · Admin Panel <i class="fas fa-gem"></i></div>
+    </div>
+
+    <!-- ==================== NATIIJO FORM ==================== -->
+    <div class="portal natiijo-form-view" id="natiijoFormView">
+        <button class="back-btn" onclick="hideNatiijoForm(); return false;">
+            <i class="fas fa-arrow-left"></i> Ku noqo Dashboard
+        </button>
+        <div class="header" style="margin-bottom: 1rem;">
+            <div class="logo-png"><i class="fas fa-cloud-arrow-up" style="color:#059669;"></i></div>
+            <div class="school-title" style="background: linear-gradient(135deg, #065f46, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NATIIJO XAREYN</div>
+        </div>
+        <form id="natiijoForm" autocomplete="off">
+            <div class="form-section-title"><i class="fas fa-layer-group"></i> 1. Dooro Fasalka</div>
+            <select id="classSelector" class="class-select-big">
+                <option value="" disabled selected>— Dooro Fasalka —</option>
+                <option value="Grade 1">Grade 1</option>
+                <option value="Grade 2">Grade 2</option>
+                <option value="Grade 3">Grade 3</option>
+                <option value="Grade 4">Grade 4</option>
+                <option value="Grade 5">Grade 5</option>
+                <option value="Grade 6">Grade 6</option>
+                <option value="Grade 7">Grade 7</option>
+                <option value="Grade 8">Grade 8</option>
+            </select>
+            <div id="studentSelectorArea" style="display: none;">
+                <div class="form-section-title" style="margin-top: 1.6rem;"><i class="fas fa-user-graduate"></i> 2. Dooro Ardayga</div>
+                <div class="student-selector-hint"><i class="fas fa-circle-info"></i> Dooro ardayga fasalkan. Haddii ardayga aad rabto aanu liiska ku jirin, riix "Arday Cusub" hoos.</div>
+                <select id="studentSelector" class="class-select-big">
+                    <option value="" disabled selected>— Dooro Ardayga —</option>
+                </select>
+                <button type="button" class="new-student-btn" id="newStudentBtn">
+                    <i class="fas fa-user-plus"></i> Arday Cusub (New Student)
+                </button>
+            </div>
+            <div id="studentFormArea" style="display: none;">
+                <div id="newStudentBanner" style="display:none; margin-top: 1rem; padding: 0.9rem 1.4rem; border-radius: 1.4rem; background: rgba(251,191,36,0.15); border: 1.5px solid rgba(217,119,6,0.4); color: #92400e; font-weight: 700; font-size: 0.9rem; display:flex; align-items:center; gap:0.6rem;">
+                    <i class="fas fa-user-plus" style="color:#d97706;"></i>
+                    Waxaad xareynaysaa <b>Arday Cusub</b>
+                </div>
+                <div class="form-section-title"><i class="fas fa-calendar-days"></i> 3. Soo Gali Bisha</div>
+                <div class="month-pills" id="monthPills">
+                    <button type="button" class="month-pill active" data-month="Bisha 1aad"><i class="fas fa-calendar"></i> Bisha 1aad</button>
+                    <button type="button" class="month-pill" data-month="Bisha 2aad"><i class="fas fa-calendar"></i> Bisha 2aad</button>
+                    <button type="button" class="month-pill" data-month="Bisha 3aad"><i class="fas fa-calendar"></i> Bisha 3aad</button>
+                    <button type="button" class="month-pill" data-month="Bisha 4aad"><i class="fas fa-calendar"></i> Bisha 4aad</button>
+                </div>
+                <input type="hidden" id="selectedMonth" value="Bisha 1aad" />
+                <div class="form-section-title"><i class="fas fa-user-graduate"></i> 4. Macluumaadka Ardayga</div>
+                <div class="form-grid">
+                    <div class="form-field"><label><i class="fas fa-user"></i> Magaca Ardayga</label><input type="text" id="studentName" placeholder="Geli magaca buuxa" /></div>
+                    <div class="form-field"><label><i class="fas fa-layer-group"></i> Fasalka</label><input type="text" id="studentClass" placeholder="Fasalka" readonly /></div>
+                    <div class="form-field"><label><i class="fas fa-id-card"></i> ID No</label><input type="text" id="studentId" placeholder="Geli ID No" /></div>
+                    <div class="form-field"><label><i class="fas fa-key"></i> Password Ardayga</label><input type="text" id="studentPassword" placeholder="Geli password-ka" /></div>
+                </div>
+                <div class="form-section-title"><i class="fas fa-marker"></i> 5. Maadooyinka iyo Marks <span style="font-size:0.8rem; font-weight:600; color:#dc2626; margin-left:auto;"><i class="fas fa-circle-exclamation"></i> 60% ka yar = DHACAY</span></div>
+                <div class="subject-chooser-bar">
+                    <span class="chooser-label"><i class="fas fa-list-check"></i> Maadooyinka:</span>
+                    <button type="button" class="choose-subjects-btn" id="openChooserBtn"><i class="fas fa-hand-pointer"></i> Choose Maadooyin</button>
+                    <div class="quick-select-btns">
+                        <button type="button" id="quickAllBtn"><i class="fas fa-check-double"></i> Dhammaan</button>
+                        <button type="button" id="quickNoneBtn"><i class="fas fa-xmark"></i> Midna</button>
+                    </div>
+                    <span class="subject-count-badge"><i class="fas fa-circle-check"></i> <span id="subjectCountText">8/8</span></span>
+                </div>
+                <div class="marks-grid-empty" id="marksEmpty"><i class="fas fa-hand-pointer"></i> Weli ma dooran maadooyin.</div>
+                <div class="marks-grid" id="marksGrid">
+                    <div class="mark-card" data-subject="Tarbiyo"><span class="subject-label"><span class="subj-icon subj-tarbiyo"><i class="fas fa-heart"></i></span> Tarbiyo</span><input type="number" class="mark-input" id="mark_tarbiyo" min="0" max="100" placeholder="0" inputmode="numeric" /></div>
+                    <div class="mark-card" data-subject="Carabi"><span class="subject-label"><span class="subj-icon subj-carabi"><i class="fas fa-mosque"></i></span> Carabi</span><input type="number" class="mark-input" id="mark_carabi" min="0" max="100" placeholder="0" inputmode="numeric" /></div>
+                    <div class="mark-card" data-subject="Somali"><span class="subject-label"><span class="subj-icon subj-somali"><i class="fas fa-language"></i></span> Somali</span><input type="number" class="mark-input" id="mark_somali" min="0" max="100" placeholder="0" inputmode="numeric" /></div>
+                    <div class="mark-card" data-subject="Seynis"><span class="subject-label"><span class="subj-icon subj-seynis"><i class="fas fa-flask"></i></span> Seynis</span><input type="number" class="mark-input" id="mark_seynis" min="0" max="100" placeholder="0" inputmode="numeric" /></div>
+                    <div class="mark-card" data-subject="C.B"><span class="subject-label"><span class="subj-icon subj-cb"><i class="fas fa-people-group"></i></span> C.B</span><input type="number" class="mark-input" id="mark_cb" min="0" max="100" placeholder="0" inputmode="numeric" /></div>
+                    <div class="mark-card" data-subject="Technology"><span class="subject-label"><span class="subj-icon subj-technology"><i class="fas fa-microchip"></i></span> Technology</span><input type="number" class="mark-input" id="mark_technology" min="0" max="100" placeholder="0" inputmode="numeric" /></div>
+                    <div class="mark-card" data-subject="English"><span class="subject-label"><span class="subj-icon subj-english"><i class="fas fa-globe"></i></span> English</span><input type="number" class="mark-input" id="mark_english" min="0" max="100" placeholder="0" inputmode="numeric" /></div>
+                    <div class="mark-card" data-subject="Xisaab"><span class="subject-label"><span class="subj-icon subj-xisaab"><i class="fas fa-calculator"></i></span> Xisaab</span><input type="number" class="mark-input" id="mark_xisaab" min="0" max="100" placeholder="0" inputmode="numeric" /></div>
+                </div>
+                <div class="form-section-title" style="margin-top: 1.6rem;"><i class="fas fa-eye"></i> 6. Ardayga Natiijada Ha Arko?</div>
+                <div class="visibility-box">
+                    <label class="visibility-check-row" for="resultVisibilityCheck">
+                        <input type="checkbox" id="resultVisibilityCheck" checked />
+                        <span class="custom-checkbox"><i class="fas fa-check"></i></span>
+                        <span class="visibility-label">
+                            Ardayga natiijada ha arko
+                            <small><i class="fas fa-circle-info"></i> Marka la saaro (✓) ardaygu wuu arki karaa. Marka la qaado, ma arki karo.</small>
+                        </span>
+                    </label>
+                    <div class="reason-box" id="reasonBox">
+                        <label for="resultReasonInput"><i class="fas fa-triangle-exclamation"></i> Sababta natiijada loo fasixay (waa lagama maarmaan)</label>
+                        <textarea id="resultReasonInput" placeholder="Tusaale: Ardayga wali ma bixin lacagta imtixaanka..."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="save-btn"><i class="fas fa-floppy-disk"></i> Save Natiijada</button>
+            </div>
+            <div class="form-toast" id="formToast"></div>
+        </form>
+        <div class="footer"><i class="fas fa-gem"></i> Sahal Primary & Secondary School · Natiijo Xareyn <i class="fas fa-gem"></i></div>
+    </div>
+
+    <!-- ==================== SUBJECT CHOOSER ==================== -->
+    <div class="subject-chooser-overlay" id="subjectChooserOverlay">
+        <div class="subject-chooser-modal">
+            <button class="subject-chooser-close" id="subjectChooserClose">&times;</button>
+            <h3><i class="fas fa-list-check"></i> Dooro Maadooyinka</h3>
+            <p class="chooser-sub">Dooro maadooyinka aad rabto inaad xareyso.</p>
+            <div class="chooser-grid" id="chooserGrid"></div>
+            <div class="chooser-actions">
+                <button type="button" class="choose-all-btn" id="chooserAllBtn"><i class="fas fa-check-double"></i> Dhammaan</button>
+                <button type="button" class="choose-all-btn" id="chooserNoneBtn" style="background: rgba(220,38,38,0.1); color:#dc2626;"><i class="fas fa-xmark"></i> Midna</button>
+                <button type="button" class="apply-btn" id="chooserApplyBtn"><i class="fas fa-check"></i> Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MURAAJACO ADMIN ==================== -->
+    <div class="portal muraajaco-view" id="muraajacoAdminView">
+        <button class="back-btn" onclick="hideMuraajacoAdmin(); return false;"><i class="fas fa-arrow-left"></i> Ku noqo Dashboard</button>
+        <div class="header" style="margin-bottom: 1rem;">
+            <div class="logo-png"><i class="fas fa-file-pdf" style="color:#dc2626;"></i></div>
+            <div class="school-title" style="background: linear-gradient(135deg, #7f1d1d, #dc2626); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">MURAAJACO · MAAMULKA</div>
+        </div>
+        <p style="color:#4b3f6b; font-weight:600; margin-bottom: 1rem;"><i class="fas fa-upload" style="color:#dc2626;"></i> Dooro fasalka, soo geli PDF-ka, kadibna Save dheh.</p>
+        <div class="form-section-title"><i class="fas fa-layer-group"></i> Dooro Fasalka</div>
+        <select id="muraajacoClassSelect" class="class-select-big">
+            <option value="" disabled selected>— Dooro Fasalka —</option>
+            <option value="Grade 1">Grade 1</option>
+            <option value="Grade 2">Grade 2</option>
+            <option value="Grade 3">Grade 3</option>
+            <option value="Grade 4">Grade 4</option>
+            <option value="Grade 5">Grade 5</option>
+            <option value="Grade 6">Grade 6</option>
+            <option value="Grade 7">Grade 7</option>
+            <option value="Grade 8">Grade 8</option>
+        </select>
+        <div id="muraajacoUploadArea" style="display:none;">
+            <div class="form-section-title" style="margin-top: 1.6rem;"><i class="fas fa-file-pdf"></i> Soo Gali PDF-ka</div>
+            <div class="muraajaco-file-input-wrapper">
+                <input type="file" id="muraajacoFileInput" accept="application/pdf,.pdf" />
+            </div>
+            <div class="file-preview-card" id="filePreviewCard">
+                <i class="fas fa-file-pdf pdf-icon"></i>
+                <div class="file-info">
+                    <div class="file-name" id="previewFileName">—</div>
+                    <div class="file-size" id="previewFileSize">—</div>
+                </div>
+                <button type="button" class="remove-file-btn" id="removeFileBtn"><i class="fas fa-xmark"></i></button>
+            </div>
+            <button type="button" class="save-btn" id="saveMuraajacoBtn" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">
+                <i class="fas fa-floppy-disk"></i> Save Muraajacada
+            </button>
+            <div class="form-toast" id="muraajacoToast"></div>
+        </div>
+        <div id="muraajacoSavedSection" style="margin-top: 2rem; display:none;">
+            <div class="form-section-title" style="flex-wrap: wrap;">
+                <i class="fas fa-folder-open"></i> PDF-yada La Xareyay
+                <span id="savedClassLabel" style="font-size:0.85rem; font-weight:600; color:#7c3aed;"></span>
+                <button type="button" class="delete-all-btn" id="deleteAllBtn" style="margin-left:auto;"><i class="fas fa-trash-can"></i> Tirtir Dhammaan</button>
+            </div>
+            <div class="saved-files-list" id="savedFilesList"></div>
+            <div id="noSavedFiles" class="no-results" style="display:none;"><i class="fas fa-file-circle-xmark"></i> Weli lama xareyn PDF fasalkan.</div>
+        </div>
+        <div class="footer"><i class="fas fa-gem"></i> Sahal Primary & Secondary School · Muraajaco Admin <i class="fas fa-gem"></i></div>
+    </div>
+
+    <!-- ==================== STUDENT MURAAJACO ==================== -->
+    <div class="portal student-muraajaco-view" id="studentMuraajacoView">
+        <button class="back-btn" onclick="hideStudentMuraajaco(); return false;"><i class="fas fa-arrow-left"></i> Ku noqo Bogga Hore</button>
+        <div class="header" style="margin-bottom: 1rem;">
+            <div class="logo-png"><i class="fas fa-file-pdf" style="color:#dc2626;"></i></div>
+            <div class="school-title" style="background: linear-gradient(135deg, #7f1d1d, #dc2626); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">MURAAJACADA ARDAYGA</div>
+        </div>
+        <div id="muraajacoLoginStep">
+            <div class="status-msg"><i class="fas fa-lock"></i> Si aad u fiirsato muraajacada, geli Password-ka maamulka kuu siiyay.</div>
+            <form id="muraajacoLoginForm" autocomplete="off">
+                <div class="form-grid">
+                    <div class="form-field"><label><i class="fas fa-key"></i> Password</label><input type="password" id="muraajacoPasswordInput" placeholder="Geli password-kaaga" required /></div>
+                </div>
+                <button type="submit" class="login-btn" style="margin-top: 1.4rem; background: linear-gradient(135deg, #dc2626, #b91c1c);"><i class="fas fa-eye"></i> Fiiri Muraajacada</button>
+                <div class="error-msg" id="muraajacoErrorMsg">Password khaldan!</div>
+            </form>
+        </div>
+        <div id="muraajacoDisplayStep" style="display: none;">
+            <div class="status-msg" style="background: rgba(209,250,229,0.85); color: #065f46;"><i class="fas fa-circle-check" style="color:#059669;"></i> <span id="muraajacoWelcomeMsg">Muraajacada waa la helay!</span></div>
+            <div class="result-info-grid">
+                <div class="result-info-card"><span class="label"><i class="fas fa-layer-group"></i> Fasalka</span><span class="value" id="muraajacoResClass">—</span></div>
+                <div class="result-info-card"><span class="label"><i class="fas fa-file-pdf"></i> PDF-yada</span><span class="value" id="muraajacoResCount">0</span></div>
+            </div>
+            <h3 style="font-size:1.3rem; font-weight:800; color:#1e1b4b; margin: 0.6rem 0;"><i class="fas fa-file-pdf" style="color:#dc2626;"></i> PDF-yada Muraajacada</h3>
+            <div id="studentPdfList"></div>
+            <div id="studentPdfEmpty" class="empty-pdf-state" style="display:none;"><i class="fas fa-file-circle-xmark"></i> Weli maamulka lama soo xareyn PDF muraajaco fasalkaaga.</div>
+            <button class="back-btn" style="margin-top: 1.5rem;" onclick="resetMuraajacoLogin(); return false;"><i class="fas fa-rotate-left"></i> Raadi Arday Kale</button>
+        </div>
+        <div class="footer"><i class="fas fa-gem"></i> Sahal Primary & Secondary School · Muraajacada Ardayga <i class="fas fa-gem"></i></div>
+    </div>
+
+    <!-- ==================== TOP 10 ==================== -->
+    <div class="portal top10-view" id="top10View">
+        <button class="back-btn" onclick="hideTop10(); return false;"><i class="fas fa-arrow-left"></i> Ku noqo Dashboard</button>
+        <div class="header" style="margin-bottom: 1rem;">
+            <div class="logo-png"><i class="fas fa-trophy" style="color:#d97706;"></i></div>
+            <div class="school-title" style="background: linear-gradient(135deg, #92400e, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">TOP 10 ARDAYDA UGU SAREEYSA</div>
+        </div>
+        <div class="month-filter-bar" id="top10MonthFilter">
+            <span class="filter-label"><i class="fas fa-filter" style="color:#7c3aed;"></i> Bisha:</span>
+            <button class="month-filter-btn active" data-month="all"><i class="fas fa-layer-group"></i> Dhammaan</button>
+            <button class="month-filter-btn" data-month="Bisha 1aad">Bisha 1aad</button>
+            <button class="month-filter-btn" data-month="Bisha 2aad">Bisha 2aad</button>
+            <button class="month-filter-btn" data-month="Bisha 3aad">Bisha 3aad</button>
+            <button class="month-filter-btn" data-month="Bisha 4aad">Bisha 4aad</button>
+        </div>
+        <div id="top10Container">
+            <div class="table-scroll-wrapper">
+                <table class="top10-table">
+                    <thead><tr><th>Kaalinta</th><th>Magaca</th><th>Fasalka</th><th>Bisha</th><th>Celcelis</th></tr></thead>
+                    <tbody id="top10TableBody"></tbody>
+                </table>
+            </div>
+            <div id="top10Empty" style="display:none;" class="no-results"><i class="fas fa-trophy"></i> Weli lama xareyn natiijo ku filan Top 10.</div>
+        </div>
+        <div class="footer"><i class="fas fa-gem"></i> Sahal Primary & Secondary School · Top 10 <i class="fas fa-gem"></i></div>
+    </div>
+
+    <!-- ==================== STUDENT RESULT ==================== -->
+    <div class="portal student-result-view" id="studentResultView">
+        <button class="back-btn" onclick="hideStudentResult(); return false;"><i class="fas fa-arrow-left"></i> Ku noqo Bogga Hore</button>
+        <div class="header" style="margin-bottom: 1rem;">
+            <div class="logo-png"><i class="fas fa-chart-line" style="color:#2563eb;"></i></div>
+            <div class="school-title" style="background: linear-gradient(135deg, #1e3a8a, #2563eb); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NATIIJADA ARDAYGA</div>
+        </div>
+        <div id="resultLoginStep">
+            <div class="status-msg"><i class="fas fa-lock"></i> Si aad u fiirsato natiijada, geli ID-gaaga iyo Password-ka.</div>
+            <form id="resultLoginForm" autocomplete="off">
+                <div class="form-grid">
+                    <div class="form-field"><label><i class="fas fa-id-card"></i> ID No</label><input type="text" id="resultIdInput" placeholder="Geli ID No-gaaga" required /></div>
+                    <div class="form-field"><label><i class="fas fa-key"></i> Password</label><input type="password" id="resultPasswordInput" placeholder="Geli password-kaaga" required /></div>
+                </div>
+                <button type="submit" class="login-btn" style="margin-top: 1.4rem;"><i class="fas fa-eye"></i> Fiiri Natiijada</button>
+                <div class="error-msg" id="resultErrorMsg">ID ama Password khaldan!</div>
+            </form>
+        </div>
+        <div id="resultDisplayStep" style="display: none;">
+            <div class="status-msg" style="background: rgba(209,250,229,0.85); color: #065f46;"><i class="fas fa-circle-check" style="color:#059669;"></i> Natiijada waa la helay!</div>
+            <div class="month-filter-bar" id="resultMonthFilter" style="margin-top: 0.5rem; margin-bottom: 1rem;">
+                <span class="filter-label"><i class="fas fa-calendar-days" style="color:#2563eb;"></i> Dooro Bisha:</span>
+                <button type="button" class="month-filter-btn" data-month="Bisha 1aad">Bisha 1aad</button>
+                <button type="button" class="month-filter-btn" data-month="Bisha 2aad">Bisha 2aad</button>
+                <button type="button" class="month-filter-btn" data-month="Bisha 3aad">Bisha 3aad</button>
+                <button type="button" class="month-filter-btn" data-month="Bisha 4aad">Bisha 4aad</button>
+            </div>
+            <div class="result-info-grid">
+                <div class="result-info-card"><span class="label"><i class="fas fa-user"></i> Magaca</span><span class="value" id="resName">—</span></div>
+                <div class="result-info-card"><span class="label"><i class="fas fa-layer-group"></i> Fasalka</span><span class="value" id="resClass">—</span></div>
+                <div class="result-info-card"><span class="label"><i class="fas fa-id-card"></i> ID No</span><span class="value" id="resId">—</span></div>
+                <div class="result-info-card"><span class="label"><i class="fas fa-calendar"></i> Bisha</span><span class="value" id="resMonth">—</span></div>
+            </div>
+            <div id="hiddenResultNotice" class="hidden-result-notice" style="display: none;">
+                <div class="hidden-icon"><i class="fas fa-eye-slash"></i></div>
+                <h3><i class="fas fa-lock"></i> Natiijada Waa La Fasixay</h3>
+                <p>Natiijada <b id="hiddenMonthName">bishaas</b> wali maamulka lama fasixin inaad aragto. Fadlan la xiriir maamulka.</p>
+                <div class="reason-display">
+                    <div class="reason-label"><i class="fas fa-circle-exclamation"></i> Sababta</div>
+                    <div class="reason-text" id="hiddenReasonText">—</div>
+                </div>
+            </div>
+            <div id="normalResultContent">
+                <h3 style="font-size:1.3rem; font-weight:800; color:#1e1b4b; margin: 0.6rem 0;"><i class="fas fa-marker" style="color:#2563eb;"></i> Dhibcaha Maadooyinka</h3>
+                <div class="table-scroll-wrapper">
+                    <table class="result-marks-table">
+                        <thead><tr><th>Maado</th><th>Dhibcaha</th><th>Heerka</th><th>Xaalada</th></tr></thead>
+                        <tbody id="resultMarksBody"></tbody>
+                    </table>
+                </div>
+                <div class="fail-warning" id="failWarning">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <div><div>⚠️ Ardaygan waxa uu ku baasay maadooyinka soo socda:</div><div class="fail-detail" id="failDetail"></div></div>
+                </div>
+                <div class="summary-grid">
+                    <div class="summary-card sum-total"><div class="sum-label"><i class="fas fa-calculator"></i> Total</div><div class="sum-value" id="resTotal">0</div><div class="sum-sub">Dhibcaha guud</div></div>
+                    <div class="summary-card sum-average"><div class="sum-label"><i class="fas fa-chart-simple"></i> Average</div><div class="sum-value" id="resAverage">0.00%</div><div class="sum-sub">Celceliska</div></div>
+                    <div class="summary-card sum-gpa"><div class="sum-label"><i class="fas fa-star"></i> GPA</div><div class="sum-value" id="resGpa">0.00</div><div class="sum-sub">4.0 scale</div></div>
+                    <div class="summary-card sum-failed"><div class="sum-label"><i class="fas fa-circle-xmark"></i> Dhacay</div><div class="sum-value" id="resFailedCount">0</div><div class="sum-sub">Maadooyin</div></div>
+                </div>
+                <div class="average-banner"><div class="avg-label"><i class="fas fa-ranking-star"></i> Kaalinta Fasalka</div><div class="avg-value" id="resRank">—</div></div>
+                <button type="button" class="pdf-download-btn" id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> Soo Deji PDF-ka Natiijada</button>
+            </div>
+            <button class="back-btn" style="margin-top: 1.5rem;" onclick="resetResultLogin(); return false;"><i class="fas fa-rotate-left"></i> Raadi Arday Kale</button>
+        </div>
+        <div class="footer"><i class="fas fa-gem"></i> Sahal Primary & Secondary School · Natiijada Ardayga <i class="fas fa-gem"></i></div>
+    </div>
+
+    <!-- ==================== LOGIN MODAL ==================== -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-login">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h3><i class="fas fa-shield-halved" style="color:#7c3aed;"></i> Gal Maamulka</h3>
+            <p class="modal-sub">Fadlan geli aqoonsigaaga</p>
+            <form id="loginForm" autocomplete="off">
+                <div class="input-group">
+                    <label for="username">Email</label>
+                    <div class="input-wrapper"><i class="fas fa-envelope"></i><input type="email" id="username" placeholder="admin@sahal.edu" autocomplete="off" inputmode="email" /></div>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper"><i class="fas fa-lock"></i><input type="password" id="password" placeholder="••••••••" autocomplete="off" /></div>
+                </div>
+                <button type="submit" class="login-btn"><i class="fas fa-arrow-right-to-bracket"></i> Gal</button>
+                <div class="error-msg" id="errorMsg">Waaqalad! Email ama Password khaldan.</div>
+                <div class="success-msg" id="successMsg">Aqoonsiga waa sax! Soo dhawoow Maamule.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== STUDENT DETAIL MODAL ==================== -->
+    <div class="student-detail-overlay" id="studentDetailOverlay">
+        <div class="student-detail-modal">
+            <button class="student-detail-close" id="studentDetailClose">&times;</button>
+            <div class="student-detail-avatar" id="detailAvatar">AH</div>
+            <div class="student-detail-name" id="detailName">—</div>
+            <div class="student-detail-rank" id="detailRank"><i class="fas fa-trophy"></i> Kaalinta #1</div>
+            <div class="student-detail-grid">
+                <div class="student-detail-field"><span class="field-label"><i class="fas fa-user"></i> Magaca</span><span class="field-value" id="detailNameField">—</span></div>
+                <div class="student-detail-field"><span class="field-label"><i class="fas fa-layer-group"></i> Fasalka</span><span class="field-value" id="detailClassField">—</span></div>
+                <div class="student-detail-field"><span class="field-label"><i class="fas fa-id-card"></i> ID No</span><span class="field-value" id="detailIdField">—</span></div>
+                <div class="student-detail-field"><span class="field-label"><i class="fas fa-chart-simple"></i> Celcelis</span><span class="field-value" id="detailAvgField">—</span></div>
+                <div class="student-detail-field full">
+                    <span class="field-label"><i class="fas fa-key"></i> Password</span>
+                    <span class="field-value password-value">
+                        <span class="password-mask" id="detailPasswordField">••••••••</span>
+                        <button type="button" class="toggle-password-btn" id="togglePasswordBtn"><i class="fas fa-eye"></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="student-detail-hint"><i class="fas fa-circle-info"></i> Magaca labo jeer click sii si aad u aragto faahfaahinta buuxda.</div>
+        </div>
+    </div>
+
+    <!-- ==================== FIREBASE SDK (MODULE) ==================== -->
+    <script type="module">
+        // ==========================================
+        // STEP 3: PASTE YOUR FIREBASE CONFIG HERE
+        // ==========================================
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            getDocs,
+            getDoc,
+            query,
+            where,
+            doc,
+            updateDoc,
+            deleteDoc,
+            setDoc
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // ⬇️⬇️⬇️ REPLACE THIS WITH YOUR FIREBASE CONFIG ⬇️⬇️⬇️
+        const firebaseConfig = {
+            apiKey: "AIzaSyAZ4mymTuMVdGUFTKYyCYP_726LkmbPGgI",
+            authDomain: "sahal-natiijo.firebaseapp.com",
+            projectId: "sahal-natiijo",
+            storageBucket: "sahal-natiijo.firebasestorage.app",
+            messagingSenderId: "316367855857",
+            appId: "1:316367855857:web:ef56937670fc481ad0c950",
+            measurementId: "G-CFEC7XTJM6"
+            };
+
+        // ⬆️⬆️⬆️ REPLACE THIS WITH YOUR FIREBASE CONFIG ⬆️⬆️⬆️
+
+        let app, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            console.log('✅ Firebase initialized successfully');
+        } catch (err) {
+            console.error('❌ Firebase init error:', err);
+            alert('Firebase initialization failed! Check your config in the code.');
+        }
+
+        // Expose Firebase helpers to window
+        window.FB = {
+            db,
+            collection,
+            addDoc,
+            getDocs,
+            getDoc,
+            query,
+            where,
+            doc,
+            updateDoc,
+            deleteDoc,
+            setDoc
+        };
+
+        // Dispatch ready event
+        window.dispatchEvent(new Event('firebase-ready'));
+    </script>
+
+    <!-- ==================== MAIN APP LOGIC ==================== -->
+    <script>
+    (function() {
+        // Wait for Firebase to be ready
+        let firebaseReady = false;
+        window.addEventListener('firebase-ready', () => { firebaseReady = true; });
+
+        // ========== HELPERS ==========
+        function showLoading(text = 'Loading...') {
+            const el = document.getElementById('loadingOverlay');
+            document.getElementById('loadingText').textContent = text;
+            el.classList.add('active');
+        }
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('active');
+        }
+        function escapeHtml(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+        function waitForFirebase() {
+            return new Promise(resolve => {
+                if (firebaseReady && window.FB && window.FB.db) return resolve();
+                window.addEventListener('firebase-ready', () => resolve(), { once: true });
+            });
+        }
+
+        // ========== CONSTANTS ==========
+        const PASS_MARK = 60;
+        const ADMIN_EMAIL_B64 = 'TW9oYW5uYWxmYXJAZ21haWwuY29t';
+        const ADMIN_PASSWORD_B64 = 'NjEwNDQ4MDky';
+        function getAdminEmail() { try { return atob(ADMIN_EMAIL_B64); } catch(e) { return ''; } }
+        function getAdminPassword() { try { return atob(ADMIN_PASSWORD_B64); } catch(e) { return ''; } }
+
+        const ALL_SUBJECTS = ['Tarbiyo','Carabi','Somali','Seynis','C.B','Technology','English','Xisaab'];
+        const SUBJECT_META = {
+            'Tarbiyo':    { cls: 'subj-tarbiyo',    icon: 'fa-heart' },
+            'Carabi':     { cls: 'subj-carabi',     icon: 'fa-mosque' },
+            'Somali':     { cls: 'subj-somali',     icon: 'fa-language' },
+            'Seynis':     { cls: 'subj-seynis',     icon: 'fa-flask' },
+            'C.B':        { cls: 'subj-cb',         icon: 'fa-people-group' },
+            'Technology': { cls: 'subj-technology', icon: 'fa-microchip' },
+            'English':    { cls: 'subj-english',    icon: 'fa-globe' },
+            'Xisaab':     { cls: 'subj-xisaab',     icon: 'fa-calculator' }
+        };
+        const SUBJECT_IDS = {
+            'Tarbiyo': 'mark_tarbiyo', 'Carabi': 'mark_carabi', 'Somali': 'mark_somali',
+            'Seynis': 'mark_seynis', 'C.B': 'mark_cb', 'Technology': 'mark_technology',
+            'English': 'mark_english', 'Xisaab': 'mark_xisaab'
+        };
+
+        // ========== FIRESTORE FUNCTIONS ==========
+        async function loadAllResults() {
+            await waitForFirebase();
+            try {
+                const { collection, getDocs, db } = window.FB;
+                const snap = await getDocs(collection(db, 'results'));
+                const list = [];
+                snap.forEach(d => list.push({ firestoreId: d.id, ...d.data() }));
+                return list;
+            } catch (e) {
+                console.error('Load results error:', e);
+                return [];
+            }
+        }
+
+        async function findStudentResults(studentId, password) {
+            await waitForFirebase();
+            const { collection, query, where, getDocs, db } = window.FB;
+            const q = query(collection(db, 'results'), where('id', '==', studentId));
+            const snap = await getDocs(q);
+            const list = [];
+            snap.forEach(d => {
+                const data = d.data();
+                if ((data.password || '') === password) {
+                    list.push({ firestoreId: d.id, ...data });
+                }
+            });
+            return list;
+        }
+
+        async function findExistingResult(studentId, month) {
+            await waitForFirebase();
+            const { collection, query, where, getDocs, db } = window.FB;
+            const q = query(
+                collection(db, 'results'),
+                where('id', '==', studentId),
+                where('month', '==', month)
+            );
+            const snap = await getDocs(q);
+            if (snap.empty) return null;
+            const d = snap.docs[0];
+            return { firestoreId: d.id, ...d.data() };
+        }
+
+        async function saveResultToDB(record) {
+            await waitForFirebase();
+            const { collection, addDoc, doc, updateDoc, db } = window.FB;
+            const existing = await findExistingResult(record.id, record.month);
+            if (existing) {
+                const { firestoreId, ...dataToSave } = record;
+                const ref = doc(db, 'results', existing.firestoreId);
+                await updateDoc(ref, dataToSave);
+                return { status: 'updated', firestoreId: existing.firestoreId };
+            } else {
+                const { firestoreId, ...dataToSave } = record;
+                const docRef = await addDoc(collection(db, 'results'), dataToSave);
+                return { status: 'created', firestoreId: docRef.id };
+            }
+        }
+
+        async function loadPDFsByClass(cls) {
+            await waitForFirebase();
+            const { collection, query, where, getDocs, db } = window.FB;
+            const q = query(collection(db, 'muraajaco'), where('class', '==', cls));
+            const snap = await getDocs(q);
+            const list = [];
+            snap.forEach(d => list.push({ firestoreId: d.id, ...d.data() }));
+            return list;
+        }
+
+        async function loadAllPDFs() {
+            await waitForFirebase();
+            const { collection, getDocs, db } = window.FB;
+            const snap = await getDocs(collection(db, 'muraajaco'));
+            const list = [];
+            snap.forEach(d => list.push({ firestoreId: d.id, ...d.data() }));
+            return list;
+        }
+
+        async function savePDFToDB(record) {
+            await waitForFirebase();
+            const { collection, addDoc, db } = window.FB;
+            const docRef = await addDoc(collection(db, 'muraajaco'), record);
+            return docRef.id;
+        }
+
+        async function deletePDFFromDB(firestoreId) {
+            await waitForFirebase();
+            const { doc, deleteDoc, db } = window.FB;
+            await deleteDoc(doc(db, 'muraajaco', firestoreId));
+        }
+
+        async function loadAllStudentsByClass(cls) {
+            const all = await loadAllResults();
+            const map = new Map();
+            all.filter(r => r.class === cls).forEach(r => {
+                const key = (r.id || '').toLowerCase() + '|' + (r.name || '').toLowerCase();
+                if (!map.has(key)) map.set(key, { id: r.id, name: r.name, class: r.class });
+            });
+            return Array.from(map.values()).sort((a,b) => (a.name || '').localeCompare(b.name || ''));
+        }
+
+        // ========== STATE ==========
+        let selectedSubjects = new Set(ALL_SUBJECTS);
+        let pendingSelection = new Set(ALL_SUBJECTS);
+        let currentStudentResults = [];
+        let currentResultData = null;
+        let top10ActiveMonth = 'all';
+        let selectedPDFFile = null;
+        let selectedClassForUpload = null;
+        let isNewStudentMode = false;
+        let selectedExistingStudent = null;
+        let lastClickRowId = null, lastClickTime = 0;
+        const DOUBLE_CLICK_MS = 600;
+        let currentPasswordValue = '', passwordVisible = false;
+
+        // ========== VIEW SWITCHING ==========
+        const mainPortal = document.getElementById('mainPortal');
+        const adminDashboard = document.getElementById('adminDashboard');
+        const top10View = document.getElementById('top10View');
+        const natiijoFormView = document.getElementById('natiijoFormView');
+        const studentResultView = document.getElementById('studentResultView');
+        const muraajacoAdminView = document.getElementById('muraajacoAdminView');
+        const studentMuraajacoView = document.getElementById('studentMuraajacoView');
+
+        function hideAllViews() {
+            mainPortal.style.display = 'none';
+            adminDashboard.classList.remove('active');
+            top10View.classList.remove('active');
+            natiijoFormView.classList.remove('active');
+            studentResultView.classList.remove('active');
+            muraajacoAdminView.classList.remove('active');
+            studentMuraajacoView.classList.remove('active');
+        }
+        function showMainPortal() {
+            hideAllViews();
+            mainPortal.style.display = 'flex';
+            mainPortal.style.flexDirection = 'column';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function showAdminDashboard() {
+            hideAllViews();
+            adminDashboard.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.showTop10 = async function() {
+            hideAllViews();
+            top10View.classList.add('active');
+            top10ActiveMonth = 'all';
+            document.querySelectorAll('#top10MonthFilter .month-filter-btn').forEach(b => b.classList.toggle('active', b.dataset.month === 'all'));
+            await renderTop10();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        window.hideTop10 = function() { top10View.classList.remove('active'); adminDashboard.classList.add('active'); };
+
+        window.showNatiijoForm = function() {
+            hideAllViews();
+            natiijoFormView.classList.add('active');
+            document.getElementById('formToast').classList.remove('show');
+            document.getElementById('classSelector').value = '';
+            document.getElementById('studentSelectorArea').style.display = 'none';
+            document.getElementById('studentFormArea').style.display = 'none';
+            document.getElementById('newStudentBanner').style.display = 'none';
+            isNewStudentMode = false;
+            document.getElementById('newStudentBtn').classList.remove('active');
+            selectedExistingStudent = null;
+            resetStudentForm();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        window.hideNatiijoForm = function() { natiijoFormView.classList.remove('active'); adminDashboard.classList.add('active'); };
+
+        window.showStudentResult = function() {
+            hideAllViews();
+            studentResultView.classList.add('active');
+            resetResultLogin();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        window.hideStudentResult = function() { studentResultView.classList.remove('active'); showMainPortal(); };
+
+        window.showMuraajacoAdmin = async function() {
+            hideAllViews();
+            muraajacoAdminView.classList.add('active');
+            document.getElementById('muraajacoClassSelect').value = '';
+            document.getElementById('muraajacoUploadArea').style.display = 'none';
+            document.getElementById('muraajacoSavedSection').style.display = 'none';
+            resetPDFSelection();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        window.hideMuraajacoAdmin = function() { muraajacoAdminView.classList.remove('active'); adminDashboard.classList.add('active'); };
+
+        window.showStudentMuraajaco = function() {
+            hideAllViews();
+            studentMuraajacoView.classList.add('active');
+            resetMuraajacoLogin();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        window.hideStudentMuraajaco = function() { studentMuraajacoView.classList.remove('active'); showMainPortal(); };
+
+        document.getElementById('logoutBtn').addEventListener('click', showMainPortal);
+
+        // ========== LOGIN ==========
+        const loginModal = document.getElementById('loginModal');
+        const loginForm = document.getElementById('loginForm');
+        const errorMsg = document.getElementById('errorMsg');
+        const successMsg = document.getElementById('successMsg');
+
+        document.getElementById('maamuleBox').addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.reset();
+            errorMsg.classList.remove('show');
+            successMsg.classList.remove('show');
+            loginModal.classList.add('active');
+            setTimeout(() => document.getElementById('username').focus(), 350);
+        });
+        document.getElementById('closeModal').addEventListener('click', () => loginModal.classList.remove('active'));
+        loginModal.addEventListener('click', e => { if (e.target === loginModal) loginModal.classList.remove('active'); });
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value;
+            if (email === getAdminEmail() && pass === getAdminPassword()) {
+                errorMsg.classList.remove('show');
+                successMsg.classList.add('show');
+                setTimeout(() => {
+                    loginModal.classList.remove('active');
+                    showAdminDashboard();
+                }, 700);
+            } else {
+                successMsg.classList.remove('show');
+                errorMsg.textContent = 'Waaqalad! Email ama Password khaldan.';
+                errorMsg.classList.add('show');
+            }
+        });
+
+        // ========== NATIIJO FORM ==========
+        function showToast(html, type) {
+            const t = document.getElementById('formToast');
+            t.innerHTML = html;
+            t.className = 'form-toast show ' + type;
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.remove('show'), type === 'ok' ? 10000 : 6000);
+        }
+        function resetStudentForm() {
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentClass').value = '';
+            document.getElementById('studentId').value = '';
+            document.getElementById('studentPassword').value = '';
+            ALL_SUBJECTS.forEach(subj => {
+                const el = document.getElementById(SUBJECT_IDS[subj]);
+                if (el) el.value = '';
+            });
+            selectedSubjects = new Set(ALL_SUBJECTS);
+            updateMarksGridVisibility();
+            document.getElementById('resultVisibilityCheck').checked = true;
+            document.getElementById('reasonBox').classList.remove('show');
+            document.getElementById('resultReasonInput').value = '';
+        }
+        function updateMarksGridVisibility() {
+            document.querySelectorAll('#marksGrid .mark-card').forEach(card => {
+                const subj = card.dataset.subject;
+                if (selectedSubjects.has(subj)) card.style.display = '';
+                else {
+                    card.style.display = 'none';
+                    const inp = card.querySelector('input');
+                    if (inp) inp.value = '';
+                }
+            });
+            const count = selectedSubjects.size;
+            document.getElementById('subjectCountText').textContent = `${count}/${ALL_SUBJECTS.length}`;
+            const empty = document.getElementById('marksEmpty');
+            const grid = document.getElementById('marksGrid');
+            if (count === 0) { empty.classList.add('show'); grid.style.display = 'none'; }
+            else { empty.classList.remove('show'); grid.style.display = ''; }
+        }
+
+        // Visibility checkbox
+        document.getElementById('resultVisibilityCheck').addEventListener('change', function() {
+            const rb = document.getElementById('reasonBox');
+            if (this.checked) {
+                rb.classList.remove('show');
+                document.getElementById('resultReasonInput').value = '';
+            } else {
+                rb.classList.add('show');
+                setTimeout(() => document.getElementById('resultReasonInput').focus(), 200);
+            }
+        });
+
+        // Month pills
+        document.querySelectorAll('.month-pill').forEach(p => {
+            p.addEventListener('click', function() {
+                document.querySelectorAll('.month-pill').forEach(x => x.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('selectedMonth').value = this.dataset.month;
+            });
+        });
+
+        // Class selector
+        document.getElementById('classSelector').addEventListener('change', async function() {
+            const cls = this.value;
+            if (!cls) return;
+            await populateStudentSelector(cls);
+            document.getElementById('studentSelectorArea').style.display = 'block';
+            document.getElementById('studentFormArea').style.display = 'none';
+            document.getElementById('newStudentBanner').style.display = 'none';
+            isNewStudentMode = false;
+            document.getElementById('newStudentBtn').classList.remove('active');
+            selectedExistingStudent = null;
+            resetStudentForm();
+        });
+
+        async function populateStudentSelector(cls) {
+            const sel = document.getElementById('studentSelector');
+            sel.innerHTML = '<option value="" disabled selected>— Dooro Ardayga —</option>';
+            try {
+                const students = await loadAllStudentsByClass(cls);
+                if (students.length === 0) {
+                    const opt = document.createElement('option');
+                    opt.value = '__none__'; opt.disabled = true;
+                    opt.textContent = 'Ma jiro arday fasalkan — Riix "Arday Cusub"';
+                    sel.appendChild(opt);
+                    return;
+                }
+                students.forEach(s => {
+                    const o = document.createElement('option');
+                    o.value = (s.id || '') + '||' + (s.name || '');
+                    o.textContent = `${s.name} (${s.id})`;
+                    sel.appendChild(o);
+                });
+            } catch (e) {
+                console.error('populateStudentSelector error:', e);
+            }
+        }
+
+        document.getElementById('studentSelector').addEventListener('change', async function() {
+            const val = this.value;
+            if (!val || val === '__none__') {
+                if (!isNewStudentMode) document.getElementById('studentFormArea').style.display = 'none';
+                return;
+            }
+            const [studentId, studentName] = val.split('||');
+            isNewStudentMode = false;
+            document.getElementById('newStudentBtn').classList.remove('active');
+            document.getElementById('newStudentBanner').style.display = 'none';
+            await loadExistingStudent(studentId, studentName);
+        });
+
+        async function loadExistingStudent(studentId, studentName) {
+            try {
+                const all = await loadAllResults();
+                const matches = all.filter(r => (r.id || '') === studentId && (r.name || '') === studentName);
+                if (matches.length === 0) return;
+                const latest = matches.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+                document.getElementById('studentName').value = latest.name || '';
+                document.getElementById('studentClass').value = latest.class || '';
+                document.getElementById('studentId').value = latest.id || '';
+                document.getElementById('studentPassword').value = latest.password || '';
+                if (latest.subjectsUsed && latest.subjectsUsed.length > 0) {
+                    selectedSubjects = new Set(latest.subjectsUsed.filter(s => ALL_SUBJECTS.includes(s)));
+                } else {
+                    selectedSubjects = new Set(ALL_SUBJECTS);
+                }
+                updateMarksGridVisibility();
+                ALL_SUBJECTS.forEach(subj => {
+                    const el = document.getElementById(SUBJECT_IDS[subj]);
+                    if (el) el.value = latest.marks && latest.marks[subj] !== undefined ? latest.marks[subj] : '';
+                });
+                if (latest.month) {
+                    document.getElementById('selectedMonth').value = latest.month;
+                    document.querySelectorAll('.month-pill').forEach(p => p.classList.toggle('active', p.dataset.month === latest.month));
+                }
+                if (latest.visible === false) {
+                    document.getElementById('resultVisibilityCheck').checked = false;
+                    document.getElementById('reasonBox').classList.add('show');
+                    document.getElementById('resultReasonInput').value = latest.hiddenReason || '';
+                } else {
+                    document.getElementById('resultVisibilityCheck').checked = true;
+                    document.getElementById('reasonBox').classList.remove('show');
+                    document.getElementById('resultReasonInput').value = '';
+                }
+                selectedExistingStudent = { id: latest.id, name: latest.name, class: latest.class };
+                document.getElementById('studentFormArea').style.display = 'block';
+            } catch (e) {
+                console.error('loadExistingStudent error:', e);
+            }
+        }
+
+        document.getElementById('newStudentBtn').addEventListener('click', function() {
+            const cls = document.getElementById('classSelector').value;
+            if (!cls) { showToast('❌ Fadlan dooro fasalka marka hore.', 'err'); return; }
+            isNewStudentMode = true;
+            selectedExistingStudent = null;
+            this.classList.add('active');
+            document.getElementById('newStudentBanner').style.display = 'flex';
+            document.getElementById('studentFormArea').style.display = 'block';
+            resetStudentForm();
+            document.getElementById('studentClass').value = cls;
+            setTimeout(() => document.getElementById('studentName').focus(), 200);
+        });
+
+        // Subject chooser
+        const chooserOverlay = document.getElementById('subjectChooserOverlay');
+        document.getElementById('openChooserBtn').addEventListener('click', () => {
+            pendingSelection = new Set(selectedSubjects);
+            renderChooserGrid();
+            chooserOverlay.classList.add('active');
+        });
+        document.getElementById('subjectChooserClose').addEventListener('click', () => chooserOverlay.classList.remove('active'));
+        chooserOverlay.addEventListener('click', e => { if (e.target === chooserOverlay) chooserOverlay.classList.remove('active'); });
+
+        function renderChooserGrid() {
+            const grid = document.getElementById('chooserGrid');
+            grid.innerHTML = '';
+            ALL_SUBJECTS.forEach(subj => {
+                const meta = SUBJECT_META[subj];
+                const checked = pendingSelection.has(subj);
+                const div = document.createElement('div');
+                div.className = 'chooser-item' + (checked ? ' checked' : '');
+                div.dataset.subject = subj;
+                div.innerHTML = `
+                    <span class="chooser-check"><i class="fas fa-check"></i></span>
+                    <span class="chooser-icon ${meta.cls}"><i class="fas ${meta.icon}"></i></span>
+                    <span class="chooser-name">${subj}</span>
+                `;
+                div.addEventListener('click', function() {
+                    const s = this.dataset.subject;
+                    if (pendingSelection.has(s)) { pendingSelection.delete(s); this.classList.remove('checked'); }
+                    else { pendingSelection.add(s); this.classList.add('checked'); }
+                });
+                grid.appendChild(div);
+            });
+        }
+        document.getElementById('chooserAllBtn').addEventListener('click', () => { pendingSelection = new Set(ALL_SUBJECTS); renderChooserGrid(); });
+        document.getElementById('chooserNoneBtn').addEventListener('click', () => { pendingSelection.clear(); renderChooserGrid(); });
+        document.getElementById('chooserApplyBtn').addEventListener('click', () => {
+            if (pendingSelection.size === 0) { if (!confirm('Ma hubtaa inaadan dooran wax maado ah?')) return; }
+            selectedSubjects = new Set(pendingSelection);
+            updateMarksGridVisibility();
+            chooserOverlay.classList.remove('active');
+        });
+        document.getElementById('quickAllBtn').addEventListener('click', () => { selectedSubjects = new Set(ALL_SUBJECTS); updateMarksGridVisibility(); });
+        document.getElementById('quickNoneBtn').addEventListener('click', () => {
+            if (!confirm('Ma hubtaa?')) return;
+            selectedSubjects.clear();
+            updateMarksGridVisibility();
+        });
+
+        // Form submit
+        document.getElementById('natiijoForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const cls = document.getElementById('classSelector').value;
+            if (!cls) { showToast('❌ Fadlan dooro fasalka.', 'err'); return; }
+            if (!isNewStudentMode && !selectedExistingStudent) { showToast('❌ Fadlan dooro arday ama riix "Arday Cusub".', 'err'); return; }
+
+            const month = document.getElementById('selectedMonth').value;
+            const name = document.getElementById('studentName').value.trim();
+            const studentClass = document.getElementById('studentClass').value;
+            const idNo = document.getElementById('studentId').value.trim();
+            const password = document.getElementById('studentPassword').value.trim();
+
+            if (!name || !studentClass || !idNo || !password) {
+                showToast('❌ Fadlan buuxi dhammaan macluumaadka.', 'err');
+                return;
+            }
+            if (selectedSubjects.size === 0) {
+                showToast('❌ Fadlan dooro ugu yaraan hal maado.', 'err');
+                return;
+            }
+
+            const isVisible = document.getElementById('resultVisibilityCheck').checked;
+            const hiddenReason = document.getElementById('resultReasonInput').value.trim();
+            if (!isVisible && !hiddenReason) {
+                showToast('❌ Fadlan qor sababta natiijada loo fasixay.', 'err');
+                return;
+            }
+
+            const marks = {};
+            let filledCount = 0, totalMarks = 0;
+            const failedList = [];
+
+            selectedSubjects.forEach(subj => {
+                const el = document.getElementById(SUBJECT_IDS[subj]);
+                if (!el) return;
+                const val = el.value.trim();
+                marks[subj] = val;
+                if (val !== '') {
+                    const num = parseFloat(val);
+                    filledCount++;
+                    totalMarks += num || 0;
+                    if (num < PASS_MARK) failedList.push(subj + ' (' + num + ')');
+                }
+            });
+
+            if (filledCount === 0) { showToast('❌ Fadlan geli ugu yaraan hal mark.', 'err'); return; }
+
+            let rangeError = false;
+            selectedSubjects.forEach(subj => {
+                const val = marks[subj];
+                if (val !== '') {
+                    const num = parseFloat(val);
+                    if (isNaN(num) || num < 0 || num > 100) rangeError = true;
+                }
+            });
+            if (rangeError) { showToast('❌ Dhibcaha waa in ay u dhexeeyaan 0 iyo 100.', 'err'); return; }
+
+            const average = filledCount > 0 ? (totalMarks / filledCount) : 0;
+            const averageFixed = average.toFixed(2);
+
+            const newRecord = {
+                id: idNo,
+                password,
+                name,
+                class: studentClass,
+                month,
+                marks,
+                average: averageFixed,
+                subjectsUsed: Array.from(selectedSubjects),
+                visible: isVisible,
+                hiddenReason: isVisible ? '' : hiddenReason,
+                createdAt: new Date().toISOString()
+            };
+
+            // Check existing
+            const existing = await findExistingResult(idNo, month);
+            if (existing) {
+                if (!confirm(`Ardaygan ${name} (${idNo}) waxa uu horey u leeyahay natiijo ${month}. Ma rabtaa inaad beddesho?`)) return;
+                newRecord.createdAt = existing.createdAt;
+            }
+
+            try {
+                showLoading('Saving to database...');
+                const result = await saveResultToDB(newRecord);
+                hideLoading();
+
+                await populateStudentSelector(cls);
+
+                let failMsg = '';
+                if (failedList.length > 0) {
+                    failMsg = `<br><span style="color:#b91c1c; font-weight:700;"><i class="fas fa-triangle-exclamation"></i> DHACAY (${failedList.length}): ${failedList.join(', ')}</span>`;
+                }
+                let visMsg = !isVisible ? `<br><span style="color:#dc2626; font-weight:700;"><i class="fas fa-eye-slash"></i> Natiijada WAA LA FASIXAY — Sabab: ${escapeHtml(hiddenReason)}</span>` : '';
+
+                showToast(
+                    `✅ Natiijada si guul leh ayaa loo xareyay!<br>
+                     <span style="font-weight:600; font-size:0.9rem;">
+                     Arday: <b>${escapeHtml(name)}</b> · Fasal: <b>${studentClass}</b> · ID: <b>${escapeHtml(idNo)}</b><br>
+                     Bisha: <b>${month}</b> · Celcelis: <b>${averageFixed}%</b>
+                     </span>${failMsg}${visMsg}`,
+                    'ok'
+                );
+
+                if (isNewStudentMode) {
+                    isNewStudentMode = false;
+                    document.getElementById('newStudentBtn').classList.remove('active');
+                    document.getElementById('newStudentBanner').style.display = 'none';
+                    selectedExistingStudent = { id: idNo, name, class: studentClass };
+                    document.getElementById('studentSelector').value = idNo + '||' + name;
+                }
+            } catch (err) {
+                hideLoading();
+                console.error('Save error:', err);
+                showToast('❌ Khalad ayaa dhacay markii la xareynayay: ' + err.message, 'err');
+            }
+        });
+
+        // ========== STUDENT RESULT ==========
+        function resetResultLogin() {
+            document.getElementById('resultLoginForm').reset();
+            document.getElementById('resultErrorMsg').classList.remove('show');
+            document.getElementById('resultLoginStep').style.display = 'block';
+            document.getElementById('resultDisplayStep').style.display = 'none';
+            currentStudentResults = [];
+            currentResultData = null;
+            document.querySelectorAll('#resultMonthFilter .month-filter-btn').forEach(b => b.classList.remove('active'));
+        }
+
+        document.getElementById('resultLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('resultIdInput').value.trim();
+            const pass = document.getElementById('resultPasswordInput').value.trim();
+            if (!id || !pass) {
+                document.getElementById('resultErrorMsg').textContent = 'Fadlan geli ID iyo Password.';
+                document.getElementById('resultErrorMsg').classList.add('show');
+                return;
+            }
+            try {
+                showLoading('Soo helaya natiijada...');
+                const matches = await findStudentResults(id, pass);
+                hideLoading();
+                if (matches.length === 0) {
+                    document.getElementById('resultErrorMsg').textContent = 'ID ama Password khaldan!';
+                    document.getElementById('resultErrorMsg').classList.add('show');
+                    return;
+                }
+                currentStudentResults = matches.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+                showMonthResult(currentStudentResults[0].month);
+                document.getElementById('resultLoginStep').style.display = 'none';
+                document.getElementById('resultDisplayStep').style.display = 'block';
+                document.getElementById('resultErrorMsg').classList.remove('show');
+            } catch (err) {
+                hideLoading();
+                console.error('Login error:', err);
+                document.getElementById('resultErrorMsg').textContent = 'Khalad: ' + err.message;
+                document.getElementById('resultErrorMsg').classList.add('show');
+            }
+        });
+
+        function showMonthResult(monthName) {
+            const matches = currentStudentResults.filter(r => r.month === monthName);
+            const base = currentStudentResults[0];
+            document.getElementById('resName').textContent = base.name || '—';
+            document.getElementById('resClass').textContent = base.class || '—';
+            document.getElementById('resId').textContent = base.id || '—';
+            document.getElementById('resMonth').textContent = monthName;
+
+            if (matches.length === 0) {
+                currentResultData = null;
+                document.getElementById('resultMarksBody').innerHTML = `<tr><td colspan="4" style="text-align:center; padding:2rem; color:#7c3aed; font-weight:700;">Natiijada <b>${monthName}</b> lama xareyn.</td></tr>`;
+                document.getElementById('hiddenResultNotice').style.display = 'none';
+                document.getElementById('normalResultContent').style.display = 'block';
+                updateMonthBtns(monthName);
+                return;
+            }
+
+            const result = matches[0];
+            currentResultData = result;
+
+            if (result.visible === false) {
+                document.getElementById('hiddenMonthName').textContent = result.month;
+                document.getElementById('hiddenReasonText').textContent = result.hiddenReason || 'Ma jiro sabab la qoray.';
+                document.getElementById('hiddenResultNotice').style.display = 'block';
+                document.getElementById('normalResultContent').style.display = 'none';
+                updateMonthBtns(monthName);
+                return;
+            }
+
+            document.getElementById('hiddenResultNotice').style.display = 'none';
+            document.getElementById('normalResultContent').style.display = 'block';
+            renderResult(result);
+            updateMonthBtns(monthName);
+        }
+
+        function updateMonthBtns(active) {
+            document.querySelectorAll('#resultMonthFilter .month-filter-btn').forEach(b => b.classList.toggle('active', b.dataset.month === active));
+        }
+        document.getElementById('resultMonthFilter').addEventListener('click', function(e) {
+            const btn = e.target.closest('.month-filter-btn');
+            if (!btn || currentStudentResults.length === 0) return;
+            showMonthResult(btn.dataset.month);
+        });
+
+        function markClass(m) { const n = parseFloat(m); if (isNaN(n)) return 'mark-na'; if (n >= 75) return 'mark-good'; if (n >= PASS_MARK) return 'mark-mid'; return 'mark-low'; }
+        function markLabel(m) { const n = parseFloat(m); if (isNaN(n)) return '—'; if (n >= 90) return 'A+'; if (n >= 80) return 'A'; if (n >= 70) return 'B'; if (n >= PASS_MARK) return 'C'; if (n >= 50) return 'D'; return 'F'; }
+        function markToGpa(m) { const n = parseFloat(m); if (isNaN(n)) return null; if (n >= 90) return 4.0; if (n >= 80) return 3.7; if (n >= 70) return 3.3; if (n >= 60) return 3.0; if (n >= 50) return 2.0; if (n >= 40) return 1.0; return 0.0; }
+
+        function renderResult(result) {
+            const body = document.getElementById('resultMarksBody');
+            body.innerHTML = '';
+            const subjects = result.subjectsUsed && result.subjectsUsed.length ? result.subjectsUsed : ALL_SUBJECTS;
+            let total = 0, count = 0, gpaSum = 0, gpaCount = 0;
+            const failed = [];
+            subjects.forEach(subj => {
+                const val = result.marks ? result.marks[subj] : '';
+                const hasVal = val !== '' && val !== null && val !== undefined && !isNaN(parseFloat(val));
+                const num = hasVal ? parseFloat(val) : null;
+                const info = SUBJECT_META[subj] || { cls: 'subj-xisaab', icon: 'fa-book' };
+                const isFail = hasVal && num < PASS_MARK;
+                if (hasVal) {
+                    total += num; count++;
+                    const g = markToGpa(num);
+                    if (g !== null) { gpaSum += g; gpaCount++; }
+                    if (isFail) failed.push(subj + ' (' + num + ')');
+                }
+                const tr = document.createElement('tr');
+                if (isFail) tr.classList.add('failed-row');
+                tr.innerHTML = `
+                    <td><div class="subject-cell"><span class="subj-icon ${info.cls}"><i class="fas ${info.icon}"></i></span>${subj}</div></td>
+                    <td>${hasVal ? `<span class="mark-value ${markClass(val)}">${val}/100</span>` : '<span class="mark-value mark-na">—</span>'}</td>
+                    <td>${hasVal ? markLabel(val) : '—'}</td>
+                    <td>${hasVal ? (isFail ? '<span class="fail-badge"><i class="fas fa-xmark"></i> DHACAY</span>' : '<span class="pass-badge"><i class="fas fa-check"></i> BAAS</span>') : '—'}</td>
+                `;
+                body.appendChild(tr);
+            });
+            document.getElementById('resTotal').textContent = total;
+            const avg = count > 0 ? total / count : 0;
+            document.getElementById('resAverage').textContent = avg.toFixed(2) + '%';
+            const gpa = gpaCount > 0 ? gpaSum / gpaCount : 0;
+            document.getElementById('resGpa').textContent = gpa.toFixed(2);
+            document.getElementById('resFailedCount').textContent = failed.length;
+            const fw = document.getElementById('failWarning');
+            if (failed.length > 0) { fw.classList.add('show'); document.getElementById('failDetail').textContent = failed.join(', '); }
+            else { fw.classList.remove('show'); document.getElementById('failDetail').textContent = ''; }
+
+            // Rank among visible in same class
+            const sameClass = currentStudentResults.filter(r => r.class === result.class && r.visible !== false);
+            const sorted = [...new Set(sameClass.map(r => r.id))].map(id => {
+                const best = sameClass.filter(r => r.id === id).sort((a,b) => (parseFloat(b.average)||0) - (parseFloat(a.average)||0))[0];
+                return best;
+            }).sort((a,b) => (parseFloat(b.average)||0) - (parseFloat(a.average)||0));
+            const rank = sorted.findIndex(r => r.id === result.id && r.month === result.month) + 1;
+            document.getElementById('resRank').textContent = rank > 0 ? `#${rank} / ${sorted.length}` : '—';
+        }
+
+        // ========== PDF DOWNLOAD ==========
+        document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+            if (!currentResultData) { alert('Fadlan marka hore fiiri natiijada.'); return; }
+            if (currentResultData.visible === false) { alert('❌ Natiijadan waa la fasixay — lama soo dejin karo.'); return; }
+            generateResultPDF(currentResultData);
+        });
+
+        function generateResultPDF(result) {
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'mm', 'a4');
+                const subjects = result.subjectsUsed && result.subjectsUsed.length ? result.subjectsUsed : ALL_SUBJECTS;
+                let total = 0, count = 0, gpaSum = 0, gpaCount = 0;
+                const failed = [];
+                const rows = [];
+                subjects.forEach(subj => {
+                    const val = result.marks ? result.marks[subj] : '';
+                    const hasVal = val !== '' && val !== null && val !== undefined && !isNaN(parseFloat(val));
+                    const num = hasVal ? parseFloat(val) : null;
+                    const isFail = hasVal && num < PASS_MARK;
+                    if (hasVal) {
+                        total += num; count++;
+                        const g = markToGpa(num);
+                        if (g !== null) { gpaSum += g; gpaCount++; }
+                        if (isFail) failed.push(subj + ' (' + num + ')');
+                    }
+                    rows.push({ subject: subj, mark: hasVal ? num : null, failed: isFail, grade: hasVal ? markLabel(val) : '—' });
+                });
+                const avg = count > 0 ? total / count : 0;
+                const gpa = gpaCount > 0 ? gpaSum / gpaCount : 0;
+                const pageW = 210, pageH = 297, margin = 15;
+                const contentW = pageW - margin * 2;
+                let y = margin;
+
+                doc.setFillColor(109, 40, 217);
+                doc.rect(0, 0, pageW, 38, 'F');
+                doc.setFillColor(124, 58, 237);
+                doc.rect(0, 32, pageW, 6, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(18);
+                doc.text('SAHAL PRIMARY AND SECONDARY SCHOOL', pageW / 2, 15, { align: 'center' });
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'normal');
+                doc.text('Natiijada Ardayga / Student Result Report', pageW / 2, 24, { align: 'center' });
+                doc.setFontSize(9);
+                doc.text('Bisha: ' + (result.month || '—'), pageW / 2, 30, { align: 'center' });
+
+                y = 50;
+                doc.setFillColor(245, 243, 255);
+                doc.roundedRect(margin, y, contentW, 30, 4, 4, 'F');
+                doc.setTextColor(30, 27, 75);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(11);
+                doc.text('Magaca: ' + (result.name || '—'), margin + 6, y + 9);
+                doc.text('Fasalka: ' + (result.class || '—'), margin + 6, y + 18);
+                doc.text('ID No: ' + (result.id || '—'), pageW / 2 + 8, y + 9);
+                doc.text('Bisha: ' + (result.month || '—'), pageW / 2 + 8, y + 18);
+                y += 38;
+
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(37, 99, 235);
+                doc.text('Dhibcaha Maadooyinka', margin, y);
+                y += 6;
+
+                const colX = [margin, margin + 60, margin + 110, margin + 145];
+                doc.setFillColor(237, 233, 254);
+                doc.rect(margin, y, contentW, 9, 'F');
+                doc.setFontSize(9);
+                doc.setTextColor(75, 63, 107);
+                doc.setFont('helvetica', 'bold');
+                doc.text('MAADO', colX[0] + 4, y + 6);
+                doc.text('DHIBCO', colX[1] + 4, y + 6);
+                doc.text('HEERKA', colX[2] + 4, y + 6);
+                doc.text('XAALADA', colX[3] + 4, y + 6);
+                y += 9;
+
+                doc.setFont('helvetica', 'normal');
+                rows.forEach((row, idx) => {
+                    const rowY = y + idx * 8;
+                    if (idx % 2 === 0) { doc.setFillColor(250, 250, 255); doc.rect(margin, rowY, contentW, 8, 'F'); }
+                    doc.setTextColor(30, 27, 75);
+                    doc.setFontSize(9);
+                    doc.text(row.subject, colX[0] + 4, rowY + 5.5);
+                    if (row.mark !== null) {
+                        doc.setTextColor(row.failed ? 185 : 5, row.failed ? 28 : 150, row.failed ? 28 : 105);
+                        doc.setFont('helvetica', 'bold');
+                        doc.text(row.mark + '/100', colX[1] + 4, rowY + 5.5);
+                    } else {
+                        doc.setTextColor(139, 122, 168);
+                        doc.text('—', colX[1] + 4, rowY + 5.5);
+                    }
+                    doc.setTextColor(30, 27, 75);
+                    doc.setFont('helvetica', 'normal');
+                    doc.text(row.grade, colX[2] + 4, rowY + 5.5);
+                    if (row.mark === null) { doc.setTextColor(139, 122, 168); doc.text('—', colX[3] + 4, rowY + 5.5); }
+                    else if (row.failed) { doc.setTextColor(185, 28, 28); doc.setFont('helvetica', 'bold'); doc.text('DHACAY', colX[3] + 4, rowY + 5.5); }
+                    else { doc.setTextColor(5, 150, 105); doc.setFont('helvetica', 'bold'); doc.text('BAAS', colX[3] + 4, rowY + 5.5); }
+                });
+
+                y += rows.length * 8 + 10;
+                const boxW = (contentW - 8) / 4, boxH = 22, boxY = y;
+
+                doc.setFillColor(219, 234, 254);
+                doc.roundedRect(margin, boxY, boxW, boxH, 3, 3, 'F');
+                doc.setTextColor(30, 64, 175);
+                doc.setFontSize(7);
+                doc.setFont('helvetica', 'bold');
+                doc.text('TOTAL', margin + boxW/2, boxY + 6, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text(String(total), margin + boxW/2, boxY + 17, { align: 'center' });
+
+                doc.setFillColor(237, 233, 254);
+                doc.roundedRect(margin + boxW + 8, boxY, boxW, boxH, 3, 3, 'F');
+                doc.setTextColor(91, 33, 182);
+                doc.setFontSize(7);
+                doc.setFont('helvetica', 'bold');
+                doc.text('AVERAGE', margin + boxW + 8 + boxW/2, boxY + 6, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text(avg.toFixed(2) + '%', margin + boxW + 8 + boxW/2, boxY + 17, { align: 'center' });
+
+                doc.setFillColor(209, 250, 229);
+                doc.roundedRect(margin + (boxW + 8) * 2, boxY, boxW, boxH, 3, 3, 'F');
+                doc.setTextColor(6, 95, 70);
+                doc.setFontSize(7);
+                doc.setFont('helvetica', 'bold');
+                doc.text('GPA', margin + (boxW + 8) * 2 + boxW/2, boxY + 6, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text(gpa.toFixed(2), margin + (boxW + 8) * 2 + boxW/2, boxY + 17, { align: 'center' });
+
+                doc.setFillColor(254, 226, 226);
+                doc.roundedRect(margin + (boxW + 8) * 3, boxY, boxW, boxH, 3, 3, 'F');
+                doc.setTextColor(153, 27, 27);
+                doc.setFontSize(7);
+                doc.setFont('helvetica', 'bold');
+                doc.text('DHACAY', margin + (boxW + 8) * 3 + boxW/2, boxY + 6, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text(String(failed.length), margin + (boxW + 8) * 3 + boxW/2, boxY + 17, { align: 'center' });
+
+                y = boxY + boxH + 10;
+                if (failed.length > 0) {
+                    doc.setFillColor(254, 226, 226);
+                    const failText = 'DHACAY (60% ka yar): ' + failed.join(', ');
+                    const split = doc.splitTextToSize(failText, contentW - 8);
+                    const failBoxH = split.length * 5 + 6;
+                    doc.roundedRect(margin, y, contentW, failBoxH, 3, 3, 'F');
+                    doc.setTextColor(153, 27, 27);
+                    doc.setFontSize(8);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(split, margin + 4, y + 5);
+                    y += failBoxH + 8;
+                }
+
+                doc.setTextColor(139, 122, 168);
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                const now = new Date();
+                const ds = now.toLocaleDateString('so-SO', { year: 'numeric', month: 'long', day: 'numeric' }) + ' ' + now.toLocaleTimeString('so-SO', { hour: '2-digit', minute: '2-digit' });
+                doc.text('Waxaa la soo saaray: ' + ds, pageW / 2, pageH - 20, { align: 'center' });
+                doc.text('Sahal Primary & Secondary School · Portal', pageW / 2, pageH - 14, { align: 'center' });
+
+                const safeName = (result.name || 'Arday').replace(/[^a-zA-Z0-9\u0600-\u06FF\s]/g, '').trim().replace(/\s+/g, '_');
+                const safeMonth = (result.month || 'Bisha').replace(/\s+/g, '_');
+                doc.save(`Natiijada_${safeName}_${safeMonth}.pdf`);
+            } catch (err) {
+                console.error('PDF error:', err);
+                alert('❌ Khalad ayaa dhacay markii la soo saarayay PDF-ka.');
+            }
+        }
+
+        // ========== TOP 10 ==========
+        async function renderTop10() {
+            const tbody = document.getElementById('top10TableBody');
+            const empty = document.getElementById('top10Empty');
+            tbody.innerHTML = '';
+            try {
+                showLoading('Soo helaya Top 10...');
+                let all = await loadAllResults();
+                hideLoading();
+                if (top10ActiveMonth !== 'all') all = all.filter(r => r.month === top10ActiveMonth);
+                all = all.filter(r => r.visible !== false);
+                if (all.length === 0) { empty.style.display = 'block'; return; }
+                empty.style.display = 'none';
+
+                const map = new Map();
+                all.forEach(r => {
+                    const key = (r.id || '').toLowerCase() + '|' + (r.name || '').toLowerCase();
+                    const avg = parseFloat(r.average) || 0;
+                    if (!map.has(key) || avg > map.get(key).avg) {
+                        map.set(key, { ...r, avg });
+                    }
+                });
+                const sorted = Array.from(map.values()).sort((a,b) => b.avg - a.avg).slice(0, 10);
+
+                sorted.forEach((s, i) => {
+                    const rank = i + 1;
+                    let cls = 'rank-default';
+                    if (rank === 1) cls = 'rank-1';
+                    else if (rank === 2) cls = 'rank-2';
+                    else if (rank === 3) cls = 'rank-3';
+                    const initials = (s.name || '?').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+                    const tr = document.createElement('tr');
+                    tr.dataset.studentId = s.id || '';
+                    tr.dataset.studentName = s.name || '';
+                    tr.innerHTML = `
+                        <td><span class="rank-badge ${cls}">${rank}</span></td>
+                        <td><div class="student-name"><span class="student-avatar">${initials}</span><span>${escapeHtml(s.name)}</span><span class="click-hint"><i class="fas fa-hand-pointer"></i> 2×</span></div></td>
+                        <td>${escapeHtml(s.class)}</td>
+                        <td><span class="month-pill-tag"><i class="fas fa-calendar"></i> ${escapeHtml(s.month)}</span></td>
+                        <td><span class="score-pill">${s.avg.toFixed(2)}%</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                hideLoading();
+                console.error('Top10 error:', err);
+            }
+        }
+
+        document.getElementById('top10TableBody').addEventListener('click', function(e) {
+            const row = e.target.closest('tr');
+            if (!row) return;
+            const nameCell = e.target.closest('td');
+            if (!nameCell || nameCell.cellIndex !== 1) return;
+            const now = Date.now();
+            const rowId = row.dataset.studentId + '|' + row.dataset.studentName;
+            if (lastClickRowId === rowId && (now - lastClickTime) < DOUBLE_CLICK_MS) {
+                lastClickRowId = null; lastClickTime = 0;
+                openStudentDetail(row.dataset.studentId, row.dataset.studentName);
+            } else {
+                lastClickRowId = rowId; lastClickTime = now;
+            }
+        });
+
+        document.getElementById('top10MonthFilter').addEventListener('click', function(e) {
+            const btn = e.target.closest('.month-filter-btn');
+            if (!btn) return;
+            document.querySelectorAll('#top10MonthFilter .month-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            top10ActiveMonth = btn.dataset.month;
+            renderTop10();
+        });
+
+        async function openStudentDetail(studentId, studentName) {
+            try {
+                showLoading('Loading...');
+                let all = await loadAllResults();
+                hideLoading();
+                all = all.filter(r => r.visible !== false);
+                if (top10ActiveMonth !== 'all') all = all.filter(r => r.month === top10ActiveMonth);
+                const matches = all.filter(r => (r.id || '') === studentId && (r.name || '') === studentName);
+                if (matches.length === 0) return;
+                const best = matches.sort((a,b) => (parseFloat(b.average)||0) - (parseFloat(a.average)||0))[0];
+                const initials = (best.name || '?').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+                document.getElementById('detailAvatar').textContent = initials;
+                document.getElementById('detailName').textContent = best.name || '—';
+                document.getElementById('detailNameField').textContent = best.name || '—';
+                document.getElementById('detailClassField').textContent = best.class || '—';
+                document.getElementById('detailIdField').textContent = best.id || '—';
+                document.getElementById('detailAvgField').textContent = (parseFloat(best.average)||0).toFixed(2) + '%';
+                currentPasswordValue = best.password || '—';
+                passwordVisible = false;
+                document.getElementById('detailPasswordField').textContent = '••••••••';
+                document.getElementById('detailPasswordField').classList.add('password-mask');
+                document.getElementById('studentDetailOverlay').classList.add('active');
+            } catch (err) {
+                hideLoading();
+                console.error('openStudentDetail error:', err);
+            }
+        }
+
+        document.getElementById('studentDetailClose').addEventListener('click', () => document.getElementById('studentDetailOverlay').classList.remove('active'));
+        document.getElementById('studentDetailOverlay').addEventListener('click', e => {
+            if (e.target === document.getElementById('studentDetailOverlay')) document.getElementById('studentDetailOverlay').classList.remove('active');
+        });
+        document.getElementById('togglePasswordBtn').addEventListener('click', function() {
+            passwordVisible = !passwordVisible;
+            const f = document.getElementById('detailPasswordField');
+            if (passwordVisible) { f.textContent = currentPasswordValue; f.classList.remove('password-mask'); this.innerHTML = '<i class="fas fa-eye-slash"></i>'; }
+            else { f.textContent = '••••••••'; f.classList.add('password-mask'); this.innerHTML = '<i class="fas fa-eye"></i>'; }
+        });
+
+        // ========== MURAAJACO ADMIN ==========
+        function resetPDFSelection() {
+            selectedPDFFile = null;
+            document.getElementById('muraajacoFileInput').value = '';
+            document.getElementById('filePreviewCard').classList.remove('show');
+            document.getElementById('previewFileName').textContent = '—';
+            document.getElementById('previewFileSize').textContent = '—';
+        }
+        function formatFileSize(b) {
+            if (b < 1024) return b + ' B';
+            if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+            return (b / 1048576).toFixed(2) + ' MB';
+        }
+        function formatDate(iso) {
+            try {
+                const d = new Date(iso);
+                return d.toLocaleDateString('so-SO', { year: 'numeric', month: 'short', day: 'numeric' }) + ' ' + d.toLocaleTimeString('so-SO', { hour: '2-digit', minute: '2-digit' });
+            } catch(e) { return iso; }
+        }
+        function showMuraajacoToast(html, type) {
+            const t = document.getElementById('muraajacoToast');
+            t.innerHTML = html;
+            t.className = 'form-toast show ' + type;
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.remove('show'), type === 'ok' ? 8000 : 6000);
+        }
+
+        document.getElementById('muraajacoClassSelect').addEventListener('change', async function() {
+            const cls = this.value;
+            if (!cls) {
+                document.getElementById('muraajacoUploadArea').style.display = 'none';
+                document.getElementById('muraajacoSavedSection').style.display = 'none';
+                return;
+            }
+            selectedClassForUpload = cls;
+            document.getElementById('muraajacoUploadArea').style.display = 'block';
+            document.getElementById('muraajacoSavedSection').style.display = 'block';
+            document.getElementById('savedClassLabel').textContent = `(${cls})`;
+            resetPDFSelection();
+            await renderSavedPDFs(cls);
+        });
+
+        document.getElementById('muraajacoFileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) { resetPDFSelection(); return; }
+            if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                showMuraajacoToast('❌ Fadlan soo geli PDF kaliya.', 'err');
+                resetPDFSelection(); return;
+            }
+            if (file.size > 900 * 1024) {
+                showMuraajacoToast('❌ PDF-ka waa in uu ka yar yahay 900KB (Firestore limit 1MB).', 'err');
+                resetPDFSelection(); return;
+            }
+            selectedPDFFile = file;
+            document.getElementById('previewFileName').textContent = file.name;
+            document.getElementById('previewFileSize').textContent = formatFileSize(file.size);
+            document.getElementById('filePreviewCard').classList.add('show');
+        });
+
+        document.getElementById('removeFileBtn').addEventListener('click', resetPDFSelection);
+
+        document.getElementById('saveMuraajacoBtn').addEventListener('click', function() {
+            if (!selectedClassForUpload) { showMuraajacoToast('❌ Fadlan dooro fasalka.', 'err'); return; }
+            if (!selectedPDFFile) { showMuraajacoToast('❌ Fadlan soo geli PDF.', 'err'); return; }
+            const reader = new FileReader();
+            reader.onload = async function(ev) {
+                try {
+                    showLoading('Uploading PDF...');
+                    const dataUrl = ev.target.result;
+                    const record = {
+                        class: selectedClassForUpload,
+                        fileName: selectedPDFFile.name,
+                        fileSize: selectedPDFFile.size,
+                        dataUrl: dataUrl,
+                        uploadedAt: new Date().toISOString()
+                    };
+                    await savePDFToDB(record);
+                    hideLoading();
+                    showMuraajacoToast(`✅ PDF-ka ${escapeHtml(selectedPDFFile.name)} waa la xareyay!`, 'ok');
+                    resetPDFSelection();
+                    await renderSavedPDFs(selectedClassForUpload);
+                } catch (err) {
+                    hideLoading();
+                    console.error('Upload error:', err);
+                    showMuraajacoToast('❌ Khalad: ' + err.message, 'err');
+                }
+            };
+            reader.onerror = () => showMuraajacoToast('❌ PDF-ka lama akhrin karo.', 'err');
+            reader.readAsDataURL(selectedPDFFile);
+        });
+
+        document.getElementById('deleteAllBtn').addEventListener('click', async function() {
+            if (!selectedClassForUpload) return;
+            const cls = selectedClassForUpload;
+            const list = await loadPDFsByClass(cls);
+            if (list.length === 0) { showMuraajacoToast('❌ Ma jiro PDF la tirtiro.', 'err'); return; }
+            if (!confirm(`Ma hubtaa inaad tirtirto DHAMMAAN ${list.length} PDF-yada fasalka ${cls}?`)) return;
+            try {
+                showLoading('Deleting...');
+                for (const item of list) await deletePDFFromDB(item.firestoreId);
+                hideLoading();
+                await renderSavedPDFs(cls);
+                showMuraajacoToast(`🗑️ Dhammaan PDF-yada fasalka ${cls} waa la tirtiray.`, 'ok');
+            } catch (err) {
+                hideLoading();
+                showMuraajacoToast('❌ Khalad: ' + err.message, 'err');
+            }
+        });
+
+        async function renderSavedPDFs(cls) {
+            const container = document.getElementById('savedFilesList');
+            const noFiles = document.getElementById('noSavedFiles');
+            container.innerHTML = '';
+            try {
+                const all = await loadPDFsByClass(cls);
+                all.sort((a,b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+                if (all.length === 0) { noFiles.style.display = 'block'; return; }
+                noFiles.style.display = 'none';
+                all.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'saved-file-item';
+                    div.innerHTML = `
+                        <i class="fas fa-file-pdf pdf-icon"></i>
+                        <div class="file-details">
+                            <div class="file-name">${escapeHtml(item.fileName)}</div>
+                            <div class="file-meta">
+                                <span><i class="fas fa-layer-group"></i> ${escapeHtml(item.class)}</span>
+                                <span><i class="fas fa-weight-hanging"></i> ${formatFileSize(item.fileSize)}</span>
+                                <span><i class="fas fa-clock"></i> ${formatDate(item.uploadedAt)}</span>
+                            </div>
+                        </div>
+                        <div class="file-actions">
+                            <button type="button" class="view-pdf-admin" data-id="${item.firestoreId}"><i class="fas fa-eye"></i> Fiiri</button>
+                            <button type="button" class="delete-btn" data-id="${item.firestoreId}"><i class="fas fa-trash"></i> Tirtir</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+                container.querySelectorAll('.view-pdf-admin').forEach(b => {
+                    b.addEventListener('click', async function() {
+                        const list = await loadPDFsByClass(cls);
+                        const rec = list.find(m => m.firestoreId === this.dataset.id);
+                        if (rec) openPDFInNewTab(rec);
+                    });
+                });
+                container.querySelectorAll('.delete-btn').forEach(b => {
+                    b.addEventListener('click', async function() {
+                        if (!confirm('Ma hubtaa inaad tirtirto PDF-kan?')) return;
+                        try {
+                            showLoading('Deleting...');
+                            await deletePDFFromDB(this.dataset.id);
+                            hideLoading();
+                            await renderSavedPDFs(cls);
+                            showMuraajacoToast('🗑️ PDF-ka waa la tirtiray.', 'ok');
+                        } catch (err) { hideLoading(); showMuraajacoToast('❌ ' + err.message, 'err'); }
+                    });
+                });
+            } catch (err) {
+                console.error('renderSavedPDFs error:', err);
+            }
+        }
+
+        function openPDFInNewTab(record) {
+            try {
+                const byteString = atob(record.dataUrl.split(',')[1]);
+                const mimeString = record.dataUrl.split(',')[0].split(':')[1].split(';')[0];
+                const ab = new ArrayBuffer(byteString.length);
+                const ia = new Uint8Array(ab);
+                for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+                const blob = new Blob([ab], { type: mimeString });
+                const url = URL.createObjectURL(blob);
+                window.open(url, '_blank');
+                setTimeout(() => URL.revokeObjectURL(url), 60000);
+            } catch (e) {
+                console.error('PDF open error:', e);
+                alert('PDF-ka lama furi karo.');
+            }
+        }
+
+        // ========== STUDENT MURAAJACO ==========
+        function resetMuraajacoLogin() {
+            document.getElementById('muraajacoLoginForm').reset();
+            document.getElementById('muraajacoErrorMsg').classList.remove('show');
+            document.getElementById('muraajacoLoginStep').style.display = 'block';
+            document.getElementById('muraajacoDisplayStep').style.display = 'none';
+            document.getElementById('studentPdfList').innerHTML = '';
+        }
+
+        document.getElementById('muraajacoLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const pass = document.getElementById('muraajacoPasswordInput').value.trim();
+            if (!pass) {
+                document.getElementById('muraajacoErrorMsg').textContent = 'Fadlan geli password-ka.';
+                document.getElementById('muraajacoErrorMsg').classList.add('show');
+                return;
+            }
+            try {
+                showLoading('Soo helaya...');
+                const all = await loadAllResults();
+                const matches = all.filter(r => (r.password || '') === pass);
+                hideLoading();
+                if (matches.length === 0) {
+                    document.getElementById('muraajacoErrorMsg').textContent = 'Password khaldan!';
+                    document.getElementById('muraajacoErrorMsg').classList.add('show');
+                    return;
+                }
+                const latest = matches.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+                const cls = latest.class;
+                const pdfs = await loadPDFsByClass(cls);
+                pdfs.sort((a,b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+
+                document.getElementById('muraajacoResClass').textContent = cls;
+                document.getElementById('muraajacoResCount').textContent = pdfs.length;
+                document.getElementById('muraajacoWelcomeMsg').textContent = `Ku soo dhawoow ${latest.name}! Fasalkaaga: ${cls}`;
+
+                const list = document.getElementById('studentPdfList');
+                list.innerHTML = '';
+                if (pdfs.length === 0) {
+                    document.getElementById('studentPdfEmpty').style.display = 'block';
+                } else {
+                    document.getElementById('studentPdfEmpty').style.display = 'none';
+                    pdfs.forEach(pdf => {
+                        const div = document.createElement('div');
+                        div.className = 'student-pdf-card';
+                        div.innerHTML = `
+                            <div class="pdf-big-icon"><i class="fas fa-file-pdf"></i></div>
+                            <div class="pdf-info">
+                                <h4>${escapeHtml(pdf.fileName)}</h4>
+                                <p>
+                                    <span><i class="fas fa-layer-group"></i> ${escapeHtml(pdf.class)}</span>
+                                    <span><i class="fas fa-weight-hanging"></i> ${formatFileSize(pdf.fileSize)}</span>
+                                    <span><i class="fas fa-clock"></i> ${formatDate(pdf.uploadedAt)}</span>
+                                </p>
+                            </div>
+                            <button type="button" class="view-pdf-btn" data-id="${pdf.firestoreId}"><i class="fas fa-eye"></i> Fiiri PDF</button>
+                        `;
+                        list.appendChild(div);
+                    });
+                    list.querySelectorAll('.view-pdf-btn').forEach(b => {
+                        b.addEventListener('click', async function() {
+                            const pdfs = await loadPDFsByClass(cls);
+                            const rec = pdfs.find(m => m.firestoreId === this.dataset.id);
+                            if (rec) openPDFInNewTab(rec);
+                        });
+                    });
+                }
+                document.getElementById('muraajacoLoginStep').style.display = 'none';
+                document.getElementById('muraajacoDisplayStep').style.display = 'block';
+                document.getElementById('muraajacoErrorMsg').classList.remove('show');
+            } catch (err) {
+                hideLoading();
+                console.error('muraajaco login error:', err);
+            }
+        });
+
+        window.resetMuraajacoLogin = resetMuraajacoLogin;
+        window.resetResultLogin = resetResultLogin;
+
+        // ========== SEED DEMO DATA (once) ==========
+        async function seedDemoIfEmpty() {
+            await waitForFirebase();
+            try {
+                const existing = await loadAllResults();
+                if (existing.length > 0) return;
+                const demo = [
+                    {
+                        id: 'STD-001', password: 'ahmed123', name: 'Ahmed Hassan Nur', class: 'Grade 5',
+                        month: 'Bisha 1aad',
+                        marks: { 'Tarbiyo':'88','Carabi':'55','Somali':'92','Seynis':'85','C.B':'90','Technology':'58','English':'87','Xisaab':'94' },
+                        average: '81.13', subjectsUsed: ALL_SUBJECTS,
+                        visible: true, hiddenReason: '',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'STD-002', password: 'amina123', name: 'Amina Ali Hassan', class: 'Grade 6',
+                        month: 'Bisha 1aad',
+                        marks: { 'Tarbiyo':'95','Carabi':'91','Somali':'97','Seynis':'93','C.B':'96','Technology':'90','English':'94','Xisaab':'98' },
+                        average: '94.25', subjectsUsed: ALL_SUBJECTS,
+                        visible: true, hiddenReason: '',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'STD-003', password: 'yusuf123', name: 'Yusuf Mohamed Omar', class: 'Grade 7',
+                        month: 'Bisha 1aad',
+                        marks: { 'Tarbiyo':'85','Carabi':'88','Somali':'90','Seynis':'92','C.B':'87','Technology':'89','English':'91','Xisaab':'93' },
+                        average: '89.38', subjectsUsed: ALL_SUBJECTS,
+                        visible: true, hiddenReason: '',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'STD-001', password: 'ahmed123', name: 'Ahmed Hassan Nur', class: 'Grade 5',
+                        month: 'Bisha 2aad',
+                        marks: { 'Tarbiyo':'90','Carabi':'62','Somali':'94','Seynis':'88','C.B':'92','Technology':'75','English':'90','Xisaab':'96' },
+                        average: '85.88', subjectsUsed: ALL_SUBJECTS,
+                        visible: false,
+                        hiddenReason: 'Ardayga wali ma bixin lacagta imtixaanka bisha 2aad.',
+                        createdAt: new Date(Date.now() - 86400000).toISOString()
+                    }
+                ];
+                for (const rec of demo) await saveResultToDB(rec);
+                console.log('✅ Demo data seeded');
+            } catch (err) {
+                console.error('Seed error:', err);
+            }
+        }
+
+        window.addEventListener('firebase-ready', () => {
+            seedDemoIfEmpty();
+        });
+
+        // ========== INIT ==========
+        updateMarksGridVisibility();
+        console.log('✅ App initialized');
+    })();
+    </script>
+</body>
+</html>
